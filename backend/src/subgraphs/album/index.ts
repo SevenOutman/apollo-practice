@@ -11,6 +11,11 @@ export const typeDefs = gql(
 );
 
 export const resolvers: Resolvers<ContextValue> = {
+  Query: {
+    albums: async (_parent, { first }, { dataSources }) => {
+      return dataSources.jsonplaceholderAPI.listAlbums({ first });
+    },
+  },
   User: {
     albums: async ({ id }, _, { dataSources }) => {
       return dataSources.jsonplaceholderAPI.listAlbumsByUserId(id!);
@@ -18,8 +23,11 @@ export const resolvers: Resolvers<ContextValue> = {
   },
 
   Album: {
-    photos: async ({ id }, _, { dataSources }) => {
-      return dataSources.jsonplaceholderAPI.listPhotosByAlbumId(id!);
+    user: async ({ userId }, _, { dataSources }) => {
+      return dataSources.jsonplaceholderAPI.getUser(userId!);
+    },
+    photos: async ({ id }, { first }, { dataSources }) => {
+      return dataSources.jsonplaceholderAPI.listPhotosByAlbumId(id!, { first });
     },
   },
 };

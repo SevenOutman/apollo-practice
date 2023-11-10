@@ -30,7 +30,13 @@ export type Album = {
   id: Scalars['Int']['output'];
   photos: Array<Photo>;
   title: Scalars['String']['output'];
+  user: User;
   userId: Scalars['Int']['output'];
+};
+
+
+export type AlbumPhotosArgs = {
+  first?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type Comment = {
@@ -76,9 +82,15 @@ export type Post = {
 
 export type Query = {
   __typename?: 'Query';
+  albums: Array<Album>;
   posts: Array<Post>;
   user?: Maybe<User>;
   users: Array<Maybe<User>>;
+};
+
+
+export type QueryAlbumsArgs = {
+  first?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -222,8 +234,9 @@ export type AddressResolvers<ContextType = any, ParentType extends ResolversPare
 
 export type AlbumResolvers<ContextType = any, ParentType extends ResolversParentTypes['Album'] = ResolversParentTypes['Album']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  photos?: Resolver<Array<ResolversTypes['Photo']>, ParentType, ContextType>;
+  photos?: Resolver<Array<ResolversTypes['Photo']>, ParentType, ContextType, Partial<AlbumPhotosArgs>>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -270,6 +283,7 @@ export type PostResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  albums?: Resolver<Array<ResolversTypes['Album']>, ParentType, ContextType, Partial<QueryAlbumsArgs>>;
   posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   users?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;

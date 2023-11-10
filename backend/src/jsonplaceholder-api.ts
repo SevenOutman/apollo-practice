@@ -90,16 +90,29 @@ class JsonPlaceholderAPI extends RESTDataSource {
     );
   }
 
+  async listAlbums(params?: { first?: number | null }) {
+    return this.get(`/albums`, {
+      params: {
+        _limit: params?.first,
+      },
+    }).then((data) => AlbumSchema.array().parse(data));
+  }
+
   async listAlbumsByUserId(userId: number) {
     return this.get(`/users/${userId}/albums`).then((data) =>
       AlbumSchema.array().parse(data)
     );
   }
 
-  async listPhotosByAlbumId(albumId: number) {
-    return this.get(`/albums/${albumId}/photos`).then((data) =>
-      PhotoSchema.array().parse(data)
-    );
+  async listPhotosByAlbumId(
+    albumId: number,
+    params?: { first?: number | null }
+  ) {
+    return this.get(`/albums/${albumId}/photos`, {
+      params: {
+        _limit: params?.first,
+      },
+    }).then((data) => PhotoSchema.array().parse(data));
   }
 }
 
