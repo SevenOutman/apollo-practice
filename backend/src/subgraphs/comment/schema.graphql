@@ -1,0 +1,11 @@
+type Comment {
+  postId: Int!
+  id: Int!
+  name: String!
+  email: String!
+  body: String!
+}
+
+extend type Post {
+  comments: [Comment!]!
+}

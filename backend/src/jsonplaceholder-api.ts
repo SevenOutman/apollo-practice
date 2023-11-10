@@ -2,7 +2,7 @@ import { RESTDataSource } from "@apollo/datasource-rest";
 import { z } from "zod";
 
 const UserSchema = z.object({
-  id: z.number().transform((val) => val.toString()),
+  id: z.number(),
   name: z.string(),
   username: z.string(),
   email: z.string(),
@@ -28,6 +28,21 @@ const TodoSchema = z.object({
   completed: z.boolean(),
 });
 
+const PostSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  body: z.string(),
+  userId: z.number(),
+});
+
+const CommentSchema = z.object({
+  postId: z.number(),
+  id: z.number(),
+  name: z.string(),
+  email: z.string(),
+  body: z.string(),
+});
+
 class JsonPlaceholderAPI extends RESTDataSource {
   override baseURL = "https://jsonplaceholder.typicode.com";
 
@@ -35,13 +50,29 @@ class JsonPlaceholderAPI extends RESTDataSource {
     return this.get("/users").then((data) => UserSchema.array().parse(data));
   }
 
-  async getUser(id: string) {
+  async getUser(id: number) {
     return this.get(`/users/${id}`).then((data) => UserSchema.parse(data));
   }
 
-  async listTodos(userId: string) {
+  async listTodos(userId: number) {
     return this.get(`/users/${userId}/todos`).then((data) =>
       TodoSchema.array().parse(data)
+    );
+  }
+
+  async listPosts() {
+    return this.get(`/posts`).then((data) => PostSchema.array().parse(data));
+  }
+
+  async listPostsByUserId(userId: number) {
+    return this.get(`/users/${userId}/posts`).then((data) =>
+      PostSchema.array().parse(data)
+    );
+  }
+
+  async listCommentsByPostId(postId: number) {
+    return this.get(`/posts/${postId}/comments`).then((data) =>
+      CommentSchema.array().parse(data)
     );
   }
 }

@@ -1,10 +1,10 @@
 type Query {
   users: [User]!
-  user(id: ID!): User
+  user(id: Int!): User
 }
 
 type User {
-  id: ID!
+  id: Int!
   name: String
   username: String
   email: String

@@ -25,6 +25,15 @@ export type Address = {
   zipcode?: Maybe<Scalars['String']['output']>;
 };
 
+export type Comment = {
+  __typename?: 'Comment';
+  body: Scalars['String']['output'];
+  email: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  postId: Scalars['Int']['output'];
+};
+
 export type Company = {
   __typename?: 'Company';
   bs?: Maybe<Scalars['String']['output']>;
@@ -38,15 +47,26 @@ export type Geo = {
   lng?: Maybe<Scalars['String']['output']>;
 };
 
+export type Post = {
+  __typename?: 'Post';
+  author: User;
+  body: Scalars['String']['output'];
+  comments: Array<Comment>;
+  id: Scalars['Int']['output'];
+  title: Scalars['String']['output'];
+  userId: Scalars['Int']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  posts: Array<Post>;
   user?: Maybe<User>;
   users: Array<Maybe<User>>;
 };
 
 
 export type QueryUserArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars['Int']['input'];
 };
 
 export type Todo = {
@@ -61,9 +81,10 @@ export type User = {
   address?: Maybe<Address>;
   company?: Maybe<Company>;
   email?: Maybe<Scalars['String']['output']>;
-  id: Scalars['ID']['output'];
+  id: Scalars['Int']['output'];
   name?: Maybe<Scalars['String']['output']>;
   phone?: Maybe<Scalars['String']['output']>;
+  posts: Array<Post>;
   todos: Array<Todo>;
   username?: Maybe<Scalars['String']['output']>;
   website?: Maybe<Scalars['String']['output']>;
@@ -142,10 +163,11 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Address: ResolverTypeWrapper<Partial<Address>>;
   Boolean: ResolverTypeWrapper<Partial<Scalars['Boolean']['output']>>;
+  Comment: ResolverTypeWrapper<Partial<Comment>>;
   Company: ResolverTypeWrapper<Partial<Company>>;
   Geo: ResolverTypeWrapper<Partial<Geo>>;
-  ID: ResolverTypeWrapper<Partial<Scalars['ID']['output']>>;
   Int: ResolverTypeWrapper<Partial<Scalars['Int']['output']>>;
+  Post: ResolverTypeWrapper<Partial<Post>>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Partial<Scalars['String']['output']>>;
   Todo: ResolverTypeWrapper<Partial<Todo>>;
@@ -156,10 +178,11 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Address: Partial<Address>;
   Boolean: Partial<Scalars['Boolean']['output']>;
+  Comment: Partial<Comment>;
   Company: Partial<Company>;
   Geo: Partial<Geo>;
-  ID: Partial<Scalars['ID']['output']>;
   Int: Partial<Scalars['Int']['output']>;
+  Post: Partial<Post>;
   Query: {};
   String: Partial<Scalars['String']['output']>;
   Todo: Partial<Todo>;
@@ -172,6 +195,15 @@ export type AddressResolvers<ContextType = any, ParentType extends ResolversPare
   street?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   suite?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   zipcode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CommentResolvers<ContextType = any, ParentType extends ResolversParentTypes['Comment'] = ResolversParentTypes['Comment']> = {
+  body?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  postId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -188,7 +220,18 @@ export type GeoResolvers<ContextType = any, ParentType extends ResolversParentTy
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = {
+  author?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  body?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  comments?: Resolver<Array<ResolversTypes['Comment']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   users?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
 };
@@ -204,9 +247,10 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   address?: Resolver<Maybe<ResolversTypes['Address']>, ParentType, ContextType>;
   company?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
   todos?: Resolver<Array<ResolversTypes['Todo']>, ParentType, ContextType>;
   username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   website?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -215,8 +259,10 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type Resolvers<ContextType = any> = {
   Address?: AddressResolvers<ContextType>;
+  Comment?: CommentResolvers<ContextType>;
   Company?: CompanyResolvers<ContextType>;
   Geo?: GeoResolvers<ContextType>;
+  Post?: PostResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Todo?: TodoResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
