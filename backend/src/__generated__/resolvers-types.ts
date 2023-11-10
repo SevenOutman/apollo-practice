@@ -85,7 +85,7 @@ export type Query = {
   albums: Array<Album>;
   posts: Array<Post>;
   user?: Maybe<User>;
-  users: Array<Maybe<User>>;
+  users: Array<User>;
 };
 
 
@@ -286,7 +286,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   albums?: Resolver<Array<ResolversTypes['Album']>, ParentType, ContextType, Partial<QueryAlbumsArgs>>;
   posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
-  users?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
+  users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
 };
 
 export type TodoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Todo'] = ResolversParentTypes['Todo']> = {

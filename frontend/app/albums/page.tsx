@@ -6,7 +6,7 @@ import { AlbumList } from "../../components/album-list";
 import { gql } from "../__generated__/gql";
 import { AlbumListSkeleton } from "@/components/album-list-skeleton";
 
-const GET_ROCKET_INVENTORY = gql(/* GraphQL */ `
+const GET_ALBUMS = gql(/* GraphQL */ `
   query GetAlbums {
     albums(first: 4) {
       id
@@ -21,7 +21,7 @@ const GET_ROCKET_INVENTORY = gql(/* GraphQL */ `
   }
 `);
 export default function Page() {
-  const { data } = useQuery(GET_ROCKET_INVENTORY);
+  const { data } = useQuery(GET_ALBUMS);
 
   if (data) {
     return <AlbumList albums={data.albums} />;
