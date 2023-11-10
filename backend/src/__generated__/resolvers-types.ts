@@ -49,6 +49,13 @@ export type QueryUserArgs = {
   id: Scalars['ID']['input'];
 };
 
+export type Todo = {
+  __typename?: 'Todo';
+  completed: Scalars['Boolean']['output'];
+  id: Scalars['Int']['output'];
+  title: Scalars['String']['output'];
+};
+
 export type User = {
   __typename?: 'User';
   address?: Maybe<Address>;
@@ -57,6 +64,7 @@ export type User = {
   id: Scalars['ID']['output'];
   name?: Maybe<Scalars['String']['output']>;
   phone?: Maybe<Scalars['String']['output']>;
+  todos: Array<Todo>;
   username?: Maybe<Scalars['String']['output']>;
   website?: Maybe<Scalars['String']['output']>;
 };
@@ -132,26 +140,30 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Address: ResolverTypeWrapper<Address>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
-  Company: ResolverTypeWrapper<Company>;
-  Geo: ResolverTypeWrapper<Geo>;
-  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  Address: ResolverTypeWrapper<Partial<Address>>;
+  Boolean: ResolverTypeWrapper<Partial<Scalars['Boolean']['output']>>;
+  Company: ResolverTypeWrapper<Partial<Company>>;
+  Geo: ResolverTypeWrapper<Partial<Geo>>;
+  ID: ResolverTypeWrapper<Partial<Scalars['ID']['output']>>;
+  Int: ResolverTypeWrapper<Partial<Scalars['Int']['output']>>;
   Query: ResolverTypeWrapper<{}>;
-  String: ResolverTypeWrapper<Scalars['String']['output']>;
-  User: ResolverTypeWrapper<User>;
+  String: ResolverTypeWrapper<Partial<Scalars['String']['output']>>;
+  Todo: ResolverTypeWrapper<Partial<Todo>>;
+  User: ResolverTypeWrapper<Partial<User>>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Address: Address;
-  Boolean: Scalars['Boolean']['output'];
-  Company: Company;
-  Geo: Geo;
-  ID: Scalars['ID']['output'];
+  Address: Partial<Address>;
+  Boolean: Partial<Scalars['Boolean']['output']>;
+  Company: Partial<Company>;
+  Geo: Partial<Geo>;
+  ID: Partial<Scalars['ID']['output']>;
+  Int: Partial<Scalars['Int']['output']>;
   Query: {};
-  String: Scalars['String']['output'];
-  User: User;
+  String: Partial<Scalars['String']['output']>;
+  Todo: Partial<Todo>;
+  User: Partial<User>;
 };
 
 export type AddressResolvers<ContextType = any, ParentType extends ResolversParentTypes['Address'] = ResolversParentTypes['Address']> = {
@@ -181,6 +193,13 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   users?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
 };
 
+export type TodoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Todo'] = ResolversParentTypes['Todo']> = {
+  completed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   address?: Resolver<Maybe<ResolversTypes['Address']>, ParentType, ContextType>;
   company?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType>;
@@ -188,6 +207,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  todos?: Resolver<Array<ResolversTypes['Todo']>, ParentType, ContextType>;
   username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   website?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -198,6 +218,7 @@ export type Resolvers<ContextType = any> = {
   Company?: CompanyResolvers<ContextType>;
   Geo?: GeoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Todo?: TodoResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 

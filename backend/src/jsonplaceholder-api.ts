@@ -22,6 +22,12 @@ const UserSchema = z.object({
   }),
 });
 
+const TodoSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  completed: z.boolean(),
+});
+
 class JsonPlaceholderAPI extends RESTDataSource {
   override baseURL = "https://jsonplaceholder.typicode.com";
 
@@ -31,6 +37,12 @@ class JsonPlaceholderAPI extends RESTDataSource {
 
   async getUser(id: string) {
     return this.get(`/users/${id}`).then((data) => UserSchema.parse(data));
+  }
+
+  async listTodos(userId: string) {
+    return this.get(`/users/${userId}/todos`).then((data) =>
+      TodoSchema.array().parse(data)
+    );
   }
 }
 
