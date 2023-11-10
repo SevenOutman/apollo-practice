@@ -78,10 +78,12 @@ class JsonPlaceholderAPI extends RESTDataSource {
     return this.get(`/posts`).then((data) => PostSchema.array().parse(data));
   }
 
-  async listPostsByUserId(userId: number) {
-    return this.get(`/users/${userId}/posts`).then((data) =>
-      PostSchema.array().parse(data)
-    );
+  async listPostsByUserId(userId: number, params?: { first?: number | null }) {
+    return this.get(`/users/${userId}/posts`, {
+      params: {
+        _limit: params?.first,
+      },
+    }).then((data) => PostSchema.array().parse(data));
   }
 
   async listCommentsByPostId(postId: number) {
@@ -98,10 +100,12 @@ class JsonPlaceholderAPI extends RESTDataSource {
     }).then((data) => AlbumSchema.array().parse(data));
   }
 
-  async listAlbumsByUserId(userId: number) {
-    return this.get(`/users/${userId}/albums`).then((data) =>
-      AlbumSchema.array().parse(data)
-    );
+  async listAlbumsByUserId(userId: number, params?: { first?: number | null }) {
+    return this.get(`/users/${userId}/albums`, {
+      params: {
+        _limit: params?.first,
+      },
+    }).then((data) => AlbumSchema.array().parse(data));
   }
 
   async listPhotosByAlbumId(

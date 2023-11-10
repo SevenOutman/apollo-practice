@@ -11,5 +11,5 @@ type Post {
 }
 
 extend type User {
-  posts: [Post!]!
+  posts(first: Int): [Post!]!
 }

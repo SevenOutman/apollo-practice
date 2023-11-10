@@ -121,6 +121,16 @@ export type User = {
 };
 
 
+export type UserAlbumsArgs = {
+  first?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type UserPostsArgs = {
+  first?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
@@ -298,13 +308,13 @@ export type TodoResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   address?: Resolver<Maybe<ResolversTypes['Address']>, ParentType, ContextType>;
-  albums?: Resolver<Array<ResolversTypes['Album']>, ParentType, ContextType>;
+  albums?: Resolver<Array<ResolversTypes['Album']>, ParentType, ContextType, Partial<UserAlbumsArgs>>;
   company?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
+  posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType, Partial<UserPostsArgs>>;
   todos?: Resolver<Array<ResolversTypes['Todo']>, ParentType, ContextType>;
   username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   website?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

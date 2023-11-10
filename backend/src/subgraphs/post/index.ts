@@ -23,8 +23,8 @@ export const resolvers: Resolvers<ContextValue> = {
   },
 
   User: {
-    posts: async ({ id }, _, { dataSources }) => {
-      return dataSources.jsonplaceholderAPI.listPostsByUserId(id!);
+    posts: async ({ id }, { first }, { dataSources }) => {
+      return dataSources.jsonplaceholderAPI.listPostsByUserId(id!, { first });
     },
   },
 };

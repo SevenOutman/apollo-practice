@@ -17,8 +17,8 @@ export const resolvers: Resolvers<ContextValue> = {
     },
   },
   User: {
-    albums: async ({ id }, _, { dataSources }) => {
-      return dataSources.jsonplaceholderAPI.listAlbumsByUserId(id!);
+    albums: async ({ id }, { first }, { dataSources }) => {
+      return dataSources.jsonplaceholderAPI.listAlbumsByUserId(id!, { first });
     },
   },
 

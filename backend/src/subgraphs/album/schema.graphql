@@ -19,5 +19,5 @@ type Photo {
 }
 
 extend type User {
-  albums: [Album!]!
+  albums(first: Int): [Album!]!
 }
