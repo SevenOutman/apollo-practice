@@ -25,6 +25,14 @@ export type Address = {
   zipcode?: Maybe<Scalars['String']['output']>;
 };
 
+export type Album = {
+  __typename?: 'Album';
+  id: Scalars['Int']['output'];
+  photos: Array<Photo>;
+  title: Scalars['String']['output'];
+  userId: Scalars['Int']['output'];
+};
+
 export type Comment = {
   __typename?: 'Comment';
   body: Scalars['String']['output'];
@@ -45,6 +53,15 @@ export type Geo = {
   __typename?: 'Geo';
   lat?: Maybe<Scalars['String']['output']>;
   lng?: Maybe<Scalars['String']['output']>;
+};
+
+export type Photo = {
+  __typename?: 'Photo';
+  albumId: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  thumbnailUrl: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type Post = {
@@ -79,6 +96,7 @@ export type Todo = {
 export type User = {
   __typename?: 'User';
   address?: Maybe<Address>;
+  albums: Array<Album>;
   company?: Maybe<Company>;
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
@@ -162,11 +180,13 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Address: ResolverTypeWrapper<Partial<Address>>;
+  Album: ResolverTypeWrapper<Partial<Album>>;
   Boolean: ResolverTypeWrapper<Partial<Scalars['Boolean']['output']>>;
   Comment: ResolverTypeWrapper<Partial<Comment>>;
   Company: ResolverTypeWrapper<Partial<Company>>;
   Geo: ResolverTypeWrapper<Partial<Geo>>;
   Int: ResolverTypeWrapper<Partial<Scalars['Int']['output']>>;
+  Photo: ResolverTypeWrapper<Partial<Photo>>;
   Post: ResolverTypeWrapper<Partial<Post>>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Partial<Scalars['String']['output']>>;
@@ -177,11 +197,13 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Address: Partial<Address>;
+  Album: Partial<Album>;
   Boolean: Partial<Scalars['Boolean']['output']>;
   Comment: Partial<Comment>;
   Company: Partial<Company>;
   Geo: Partial<Geo>;
   Int: Partial<Scalars['Int']['output']>;
+  Photo: Partial<Photo>;
   Post: Partial<Post>;
   Query: {};
   String: Partial<Scalars['String']['output']>;
@@ -195,6 +217,14 @@ export type AddressResolvers<ContextType = any, ParentType extends ResolversPare
   street?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   suite?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   zipcode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AlbumResolvers<ContextType = any, ParentType extends ResolversParentTypes['Album'] = ResolversParentTypes['Album']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  photos?: Resolver<Array<ResolversTypes['Photo']>, ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -217,6 +247,15 @@ export type CompanyResolvers<ContextType = any, ParentType extends ResolversPare
 export type GeoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Geo'] = ResolversParentTypes['Geo']> = {
   lat?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lng?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PhotoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Photo'] = ResolversParentTypes['Photo']> = {
+  albumId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  thumbnailUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -245,6 +284,7 @@ export type TodoResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   address?: Resolver<Maybe<ResolversTypes['Address']>, ParentType, ContextType>;
+  albums?: Resolver<Array<ResolversTypes['Album']>, ParentType, ContextType>;
   company?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -259,9 +299,11 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type Resolvers<ContextType = any> = {
   Address?: AddressResolvers<ContextType>;
+  Album?: AlbumResolvers<ContextType>;
   Comment?: CommentResolvers<ContextType>;
   Company?: CompanyResolvers<ContextType>;
   Geo?: GeoResolvers<ContextType>;
+  Photo?: PhotoResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Todo?: TodoResolvers<ContextType>;

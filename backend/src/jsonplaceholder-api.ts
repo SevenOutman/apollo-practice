@@ -43,6 +43,20 @@ const CommentSchema = z.object({
   body: z.string(),
 });
 
+const AlbumSchema = z.object({
+  userId: z.number(),
+  id: z.number(),
+  title: z.string(),
+});
+
+const PhotoSchema = z.object({
+  albumId: z.number(),
+  id: z.number(),
+  title: z.string(),
+  url: z.string(),
+  thumbnailUrl: z.string(),
+});
+
 class JsonPlaceholderAPI extends RESTDataSource {
   override baseURL = "https://jsonplaceholder.typicode.com";
 
@@ -54,7 +68,7 @@ class JsonPlaceholderAPI extends RESTDataSource {
     return this.get(`/users/${id}`).then((data) => UserSchema.parse(data));
   }
 
-  async listTodos(userId: number) {
+  async listTodosByUserId(userId: number) {
     return this.get(`/users/${userId}/todos`).then((data) =>
       TodoSchema.array().parse(data)
     );
@@ -73,6 +87,18 @@ class JsonPlaceholderAPI extends RESTDataSource {
   async listCommentsByPostId(postId: number) {
     return this.get(`/posts/${postId}/comments`).then((data) =>
       CommentSchema.array().parse(data)
+    );
+  }
+
+  async listAlbumsByUserId(userId: number) {
+    return this.get(`/users/${userId}/albums`).then((data) =>
+      AlbumSchema.array().parse(data)
+    );
+  }
+
+  async listPhotosByAlbumId(albumId: number) {
+    return this.get(`/albums/${albumId}/photos`).then((data) =>
+      PhotoSchema.array().parse(data)
     );
   }
 }

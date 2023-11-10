@@ -5,6 +5,7 @@ import * as userSubgraph from "./subgraphs/user";
 import * as todoSubgraph from "./subgraphs/todo";
 import * as postSubgraph from "./subgraphs/post";
 import * as commentSubgraph from "./subgraphs/comment";
+import * as albumSubgraph from "./subgraphs/album";
 import { ContextValue, context } from "./context";
 
 const server = new ApolloServer<ContextValue>({
@@ -13,6 +14,7 @@ const server = new ApolloServer<ContextValue>({
     todoSubgraph,
     postSubgraph,
     commentSubgraph,
+    albumSubgraph,
   ]),
 });
 

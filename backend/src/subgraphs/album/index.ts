@@ -12,8 +12,14 @@ export const typeDefs = gql(
 
 export const resolvers: Resolvers<ContextValue> = {
   User: {
-    todos: async ({ id }, _, { dataSources }) => {
-      return dataSources.jsonplaceholderAPI.listTodosByUserId(id!);
+    albums: async ({ id }, _, { dataSources }) => {
+      return dataSources.jsonplaceholderAPI.listAlbumsByUserId(id!);
+    },
+  },
+
+  Album: {
+    photos: async ({ id }, _, { dataSources }) => {
+      return dataSources.jsonplaceholderAPI.listPhotosByAlbumId(id!);
     },
   },
 };
