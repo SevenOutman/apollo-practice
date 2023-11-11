@@ -19,9 +19,14 @@ const GET_USER = gql(/* GraphQL */ `
         city
       }
       posts(first: 3) {
-        id
-        title
-        body
+        totalCount
+        edges {
+          node {
+            id
+            title
+            body
+          }
+        }
       }
       albums(first: 3) {
         id
@@ -80,7 +85,12 @@ export default function UserDetailPage() {
               </p>
             </div>
           )}
-          <h2 className="text-3xl font-bold">Posts</h2>
+          <h2 className="text-3xl font-bold">
+            Posts
+            {data?.user?.posts.totalCount && (
+              <span>({data.user.posts.totalCount})</span>
+            )}
+          </h2>
           {!data && (
             <div className="space-y-4 mt-4">
               <div className="border p-4 rounded-lg">
@@ -98,7 +108,7 @@ export default function UserDetailPage() {
             </div>
           )}
           <div className="space-y-4">
-            {data?.user?.posts.map((post) => (
+            {data?.user?.posts.edges.map(({ node: post }) => (
               <Link key={post.id} href={`/posts/${post.id}`}>
                 <div className="border p-4 rounded-lg">
                   <h2 className="font-bold text-xl">{post.title}</h2>

@@ -27,7 +27,15 @@ export const resolvers: Resolvers<ContextValue> = {
 
   User: {
     posts: async ({ id }, { first }, { dataSources }) => {
-      return dataSources.jsonplaceholderAPI.listPostsByUserId(id!, { first });
+      const { body, headers } =
+        await dataSources.jsonplaceholderAPI.listPostsByUserId(id!, { first });
+
+      return {
+        edges: body.map((post) => ({ node: post, cursor: `post${post.id}` })),
+        totalCount: headers.has("X-Total-Count")
+          ? parseInt(headers.get("X-Total-Count")!)
+          : null,
+      };
     },
   },
 };

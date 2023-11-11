@@ -12,5 +12,16 @@ type Post {
 }
 
 extend type User {
-  posts(first: Int): [Post!]!
+  posts(first: Int): UserPostConnection!
+}
+
+type UserPostConnection {
+  edges: [UserPostEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserPostEdge {
+  node: Post!
+  cursor: String!
 }

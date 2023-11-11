@@ -1,5 +1,5 @@
 overwrite: true
-schema: "src/**/schema.graphql"
+schema: ["src/**/schema.graphql", "src/index.ts"]
 generates:
   ./src/__generated__/resolvers-types.ts:
     plugins:

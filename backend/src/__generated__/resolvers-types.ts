@@ -75,12 +75,21 @@ export type Geo = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  _empty?: Maybe<Scalars['String']['output']>;
   createComment: CreateCommentPayload;
 };
 
 
 export type MutationCreateCommentArgs = {
   input: CreateCommentInput;
+};
+
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  endCursor?: Maybe<Scalars['String']['output']>;
+  hasNextPage: Scalars['Boolean']['output'];
+  hasPreviousPage: Scalars['Boolean']['output'];
+  startCursor?: Maybe<Scalars['String']['output']>;
 };
 
 export type Photo = {
@@ -104,6 +113,7 @@ export type Post = {
 
 export type Query = {
   __typename?: 'Query';
+  _empty?: Maybe<Scalars['String']['output']>;
   albums: Array<Album>;
   post?: Maybe<Post>;
   posts: Array<Post>;
@@ -142,7 +152,7 @@ export type User = {
   id: Scalars['Int']['output'];
   name?: Maybe<Scalars['String']['output']>;
   phone?: Maybe<Scalars['String']['output']>;
-  posts: Array<Post>;
+  posts: UserPostConnection;
   todos: Array<Todo>;
   username?: Maybe<Scalars['String']['output']>;
   website?: Maybe<Scalars['String']['output']>;
@@ -156,6 +166,19 @@ export type UserAlbumsArgs = {
 
 export type UserPostsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type UserPostConnection = {
+  __typename?: 'UserPostConnection';
+  edges: Array<UserPostEdge>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int']['output'];
+};
+
+export type UserPostEdge = {
+  __typename?: 'UserPostEdge';
+  cursor: Scalars['String']['output'];
+  node: Post;
 };
 
 
@@ -239,12 +262,15 @@ export type ResolversTypes = {
   Geo: ResolverTypeWrapper<Partial<Geo>>;
   Int: ResolverTypeWrapper<Partial<Scalars['Int']['output']>>;
   Mutation: ResolverTypeWrapper<{}>;
+  PageInfo: ResolverTypeWrapper<Partial<PageInfo>>;
   Photo: ResolverTypeWrapper<Partial<Photo>>;
   Post: ResolverTypeWrapper<Partial<Post>>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Partial<Scalars['String']['output']>>;
   Todo: ResolverTypeWrapper<Partial<Todo>>;
   User: ResolverTypeWrapper<Partial<User>>;
+  UserPostConnection: ResolverTypeWrapper<Partial<UserPostConnection>>;
+  UserPostEdge: ResolverTypeWrapper<Partial<UserPostEdge>>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -259,12 +285,15 @@ export type ResolversParentTypes = {
   Geo: Partial<Geo>;
   Int: Partial<Scalars['Int']['output']>;
   Mutation: {};
+  PageInfo: Partial<PageInfo>;
   Photo: Partial<Photo>;
   Post: Partial<Post>;
   Query: {};
   String: Partial<Scalars['String']['output']>;
   Todo: Partial<Todo>;
   User: Partial<User>;
+  UserPostConnection: Partial<UserPostConnection>;
+  UserPostEdge: Partial<UserPostEdge>;
 };
 
 export type AddressResolvers<ContextType = any, ParentType extends ResolversParentTypes['Address'] = ResolversParentTypes['Address']> = {
@@ -313,7 +342,16 @@ export type GeoResolvers<ContextType = any, ParentType extends ResolversParentTy
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createComment?: Resolver<ResolversTypes['CreateCommentPayload'], ParentType, ContextType, RequireFields<MutationCreateCommentArgs, 'input'>>;
+};
+
+export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
+  endCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  hasNextPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  hasPreviousPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  startCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type PhotoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Photo'] = ResolversParentTypes['Photo']> = {
@@ -336,6 +374,7 @@ export type PostResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   albums?: Resolver<Array<ResolversTypes['Album']>, ParentType, ContextType, Partial<QueryAlbumsArgs>>;
   post?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<QueryPostArgs, 'id'>>;
   posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
@@ -358,10 +397,23 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType, Partial<UserPostsArgs>>;
+  posts?: Resolver<ResolversTypes['UserPostConnection'], ParentType, ContextType, Partial<UserPostsArgs>>;
   todos?: Resolver<Array<ResolversTypes['Todo']>, ParentType, ContextType>;
   username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   website?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UserPostConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserPostConnection'] = ResolversParentTypes['UserPostConnection']> = {
+  edges?: Resolver<Array<ResolversTypes['UserPostEdge']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UserPostEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserPostEdge'] = ResolversParentTypes['UserPostEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<ResolversTypes['Post'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -373,10 +425,13 @@ export type Resolvers<ContextType = any> = {
   CreateCommentPayload?: CreateCommentPayloadResolvers<ContextType>;
   Geo?: GeoResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  PageInfo?: PageInfoResolvers<ContextType>;
   Photo?: PhotoResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Todo?: TodoResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  UserPostConnection?: UserPostConnectionResolvers<ContextType>;
+  UserPostEdge?: UserPostEdgeResolvers<ContextType>;
 };
 
