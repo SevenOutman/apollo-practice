@@ -55,10 +55,32 @@ export type Company = {
   name?: Maybe<Scalars['String']['output']>;
 };
 
+export type CreateCommentInput = {
+  body: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  postId: Scalars['Int']['input'];
+};
+
+export type CreateCommentPayload = {
+  __typename?: 'CreateCommentPayload';
+  comment: Comment;
+};
+
 export type Geo = {
   __typename?: 'Geo';
   lat?: Maybe<Scalars['String']['output']>;
   lng?: Maybe<Scalars['String']['output']>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createComment: CreateCommentPayload;
+};
+
+
+export type MutationCreateCommentArgs = {
+  input: CreateCommentInput;
 };
 
 export type Photo = {
@@ -83,6 +105,7 @@ export type Post = {
 export type Query = {
   __typename?: 'Query';
   albums: Array<Album>;
+  post?: Maybe<Post>;
   posts: Array<Post>;
   user?: Maybe<User>;
   users: Array<User>;
@@ -91,6 +114,11 @@ export type Query = {
 
 export type QueryAlbumsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryPostArgs = {
+  id: Scalars['Int']['input'];
 };
 
 
@@ -206,8 +234,11 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Partial<Scalars['Boolean']['output']>>;
   Comment: ResolverTypeWrapper<Partial<Comment>>;
   Company: ResolverTypeWrapper<Partial<Company>>;
+  CreateCommentInput: ResolverTypeWrapper<Partial<CreateCommentInput>>;
+  CreateCommentPayload: ResolverTypeWrapper<Partial<CreateCommentPayload>>;
   Geo: ResolverTypeWrapper<Partial<Geo>>;
   Int: ResolverTypeWrapper<Partial<Scalars['Int']['output']>>;
+  Mutation: ResolverTypeWrapper<{}>;
   Photo: ResolverTypeWrapper<Partial<Photo>>;
   Post: ResolverTypeWrapper<Partial<Post>>;
   Query: ResolverTypeWrapper<{}>;
@@ -223,8 +254,11 @@ export type ResolversParentTypes = {
   Boolean: Partial<Scalars['Boolean']['output']>;
   Comment: Partial<Comment>;
   Company: Partial<Company>;
+  CreateCommentInput: Partial<CreateCommentInput>;
+  CreateCommentPayload: Partial<CreateCommentPayload>;
   Geo: Partial<Geo>;
   Int: Partial<Scalars['Int']['output']>;
+  Mutation: {};
   Photo: Partial<Photo>;
   Post: Partial<Post>;
   Query: {};
@@ -267,10 +301,19 @@ export type CompanyResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type CreateCommentPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['CreateCommentPayload'] = ResolversParentTypes['CreateCommentPayload']> = {
+  comment?: Resolver<ResolversTypes['Comment'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type GeoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Geo'] = ResolversParentTypes['Geo']> = {
   lat?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lng?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createComment?: Resolver<ResolversTypes['CreateCommentPayload'], ParentType, ContextType, RequireFields<MutationCreateCommentArgs, 'input'>>;
 };
 
 export type PhotoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Photo'] = ResolversParentTypes['Photo']> = {
@@ -294,6 +337,7 @@ export type PostResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   albums?: Resolver<Array<ResolversTypes['Album']>, ParentType, ContextType, Partial<QueryAlbumsArgs>>;
+  post?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<QueryPostArgs, 'id'>>;
   posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
@@ -326,7 +370,9 @@ export type Resolvers<ContextType = any> = {
   Album?: AlbumResolvers<ContextType>;
   Comment?: CommentResolvers<ContextType>;
   Company?: CompanyResolvers<ContextType>;
+  CreateCommentPayload?: CreateCommentPayloadResolvers<ContextType>;
   Geo?: GeoResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   Photo?: PhotoResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

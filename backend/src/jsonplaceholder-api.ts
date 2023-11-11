@@ -78,6 +78,10 @@ class JsonPlaceholderAPI extends RESTDataSource {
     return this.get(`/posts`).then((data) => PostSchema.array().parse(data));
   }
 
+  async getPostById(id: number) {
+    return this.get(`/posts/${id}`).then((data) => PostSchema.parse(data));
+  }
+
   async listPostsByUserId(userId: number, params?: { first?: number | null }) {
     return this.get(`/users/${userId}/posts`, {
       params: {
@@ -90,6 +94,20 @@ class JsonPlaceholderAPI extends RESTDataSource {
     return this.get(`/posts/${postId}/comments`).then((data) =>
       CommentSchema.array().parse(data)
     );
+  }
+
+  async createComment(input: {
+    postId: number;
+    name: string;
+    email: string;
+    body: string;
+  }) {
+    return this.post(`/comments`, {
+      body: JSON.stringify(input),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    }).then((data) => CommentSchema.parse(data));
   }
 
   async listAlbums(params?: { first?: number | null }) {

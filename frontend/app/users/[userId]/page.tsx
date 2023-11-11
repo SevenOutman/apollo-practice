@@ -2,6 +2,7 @@
 
 import { gql } from "@/app/__generated__";
 import { useQuery } from "@apollo/client";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 
 const GET_USER = gql(/* GraphQL */ `
@@ -98,10 +99,14 @@ export default function UserDetailPage() {
           )}
           <div className="space-y-4">
             {data?.user?.posts.map((post) => (
-              <div key={post.id} className="border p-4 rounded-lg">
-                <h2 className="font-bold text-xl">{post.title}</h2>
-                <p className="text-zinc-500 dark:text-zinc-400">{post.body}</p>
-              </div>
+              <Link key={post.id} href={`/posts/${post.id}`}>
+                <div className="border p-4 rounded-lg">
+                  <h2 className="font-bold text-xl">{post.title}</h2>
+                  <p className="text-zinc-500 dark:text-zinc-400">
+                    {post.body}
+                  </p>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

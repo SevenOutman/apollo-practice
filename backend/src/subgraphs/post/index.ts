@@ -15,6 +15,9 @@ export const resolvers: Resolvers<ContextValue> = {
     posts: async (_, __, { dataSources }) => {
       return dataSources.jsonplaceholderAPI.listPosts();
     },
+    post: async (_, { id }, { dataSources }) => {
+      return dataSources.jsonplaceholderAPI.getPostById(id);
+    },
   },
   Post: {
     author: async ({ userId }, _, { dataSources }) => {

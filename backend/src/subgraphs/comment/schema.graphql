@@ -9,3 +9,18 @@ type Comment {
 extend type Post {
   comments: [Comment!]!
 }
+
+extend type Mutation {
+  createComment(input: CreateCommentInput!): CreateCommentPayload!
+}
+
+input CreateCommentInput {
+  postId: Int!
+  name: String!
+  email: String!
+  body: String!
+}
+
+type CreateCommentPayload {
+  comment: Comment!
+}

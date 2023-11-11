@@ -16,4 +16,12 @@ export const resolvers: Resolvers<ContextValue> = {
       return dataSources.jsonplaceholderAPI.listCommentsByPostId(id!);
     },
   },
+  Mutation: {
+    createComment: async (_, { input }, { dataSources }) => {
+      const comment = await dataSources.jsonplaceholderAPI.createComment(input);
+
+      return { comment };
+    },
+  },
+  
 };
