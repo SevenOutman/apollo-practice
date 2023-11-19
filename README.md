@@ -3,6 +3,6 @@
 Technologies:
 
 - Next.js as frontend
-- v0 as UI builder
+- UI mostly generated with v0
 - Apollo Server as backend
 - JSONPlaceholder as data source
