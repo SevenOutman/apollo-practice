@@ -129,6 +129,10 @@ class JsonPlaceholderAPI extends RESTDataSource {
     }).then((data) => AlbumSchema.array().parse(data));
   }
 
+  async getAlbumById(id: number) {
+    return this.get(`/albums/${id}`).then((data) => AlbumSchema.parse(data));
+  }
+
   async listPhotosByAlbumId(
     albumId: number,
     params?: { first?: number | null }

@@ -15,6 +15,9 @@ export const resolvers: Resolvers<ContextValue> = {
     albums: async (_parent, { first }, { dataSources }) => {
       return dataSources.jsonplaceholderAPI.listAlbums({ first });
     },
+    album: async (_parent, { id }, { dataSources }) => {
+      return dataSources.jsonplaceholderAPI.getAlbumById(id);
+    },
   },
   User: {
     albums: async ({ id }, { first }, { dataSources }) => {
@@ -23,7 +26,7 @@ export const resolvers: Resolvers<ContextValue> = {
   },
 
   Album: {
-    user: async ({ userId }, _, { dataSources }) => {
+    creator: async ({ userId }, _, { dataSources }) => {
       return dataSources.jsonplaceholderAPI.getUser(userId!);
     },
     photos: async ({ id }, { first }, { dataSources }) => {

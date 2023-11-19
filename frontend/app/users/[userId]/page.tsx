@@ -140,16 +140,18 @@ export default function UserDetailPage() {
           )}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {data?.user?.albums.map((album) => (
-              <div key={album.id} className="border p-4 rounded-lg">
-                <h2 className="font-bold text-xl">{album.title}</h2>
-                <img
-                  alt="Album Image"
-                  className="aspect-square object-cover border border-zinc-200 w-full rounded-lg overflow-hidden dark:border-zinc-800"
-                  height={600}
-                  src={album.photos[0]?.url}
-                  width={600}
-                />
-              </div>
+              <Link key={album.id} href={`/albums/${album.id}`}>
+                <div className="border p-4 rounded-lg">
+                  <h2 className="font-bold text-xl">{album.title}</h2>
+                  <img
+                    alt="Album Image"
+                    className="aspect-square object-cover border border-zinc-200 w-full rounded-lg overflow-hidden dark:border-zinc-800"
+                    height={600}
+                    src={album.photos[0]?.url}
+                    width={600}
+                  />
+                </div>
+              </Link>
             ))}
           </div>
         </div>

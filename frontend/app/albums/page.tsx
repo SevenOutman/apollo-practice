@@ -11,7 +11,7 @@ const GET_ALBUMS = gql(/* GraphQL */ `
     albums(first: 4) {
       id
       title
-      user {
+      creator {
         name
       }
       photos(first: 1) {

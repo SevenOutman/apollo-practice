@@ -1,12 +1,13 @@
 extend type Query {
   albums(first: Int): [Album!]!
+  album(id: Int!): Album
 }
 
 type Album {
   userId: Int!
   id: Int!
   title: String!
-  user: User!
+  creator: User!
   photos(first: Int): [Photo!]!
 }
 

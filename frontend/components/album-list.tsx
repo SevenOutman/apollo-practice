@@ -11,7 +11,7 @@ export function AlbumList({
   albums: {
     id: React.Key;
     title: React.ReactNode;
-    user: {
+    creator: {
       name?: React.ReactNode;
     };
     photos: { url: string }[];
@@ -58,7 +58,7 @@ export function AlbumList({
           <div className="bg-white p-4 dark:bg-zinc-950">
             <h3 className="font-semibold text-lg md:text-xl">{album.title}</h3>
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
-              {album.user.name}
+              {album.creator.name}
             </p>
           </div>
         </div>
