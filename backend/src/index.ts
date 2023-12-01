@@ -1,4 +1,4 @@
-import { ApolloServer } from "@apollo/server";
+import { ApolloServer, ApolloServerPlugin } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { buildSubgraphSchema } from "@apollo/subgraph";
 import * as userSubgraph from "./subgraphs/user";
@@ -8,6 +8,8 @@ import * as commentSubgraph from "./subgraphs/comment";
 import * as albumSubgraph from "./subgraphs/album";
 import { ContextValue, context } from "./context";
 import gql from "graphql-tag";
+import { logger } from "./logger";
+import { logRequest } from "./plugins";
 
 const server = new ApolloServer<ContextValue>({
   schema: buildSubgraphSchema([
@@ -33,11 +35,12 @@ const server = new ApolloServer<ContextValue>({
     commentSubgraph,
     albumSubgraph,
   ]),
+  plugins: [logRequest],
 });
 
 startStandaloneServer(server, {
   context,
   listen: { port: 4000 },
 }).then(({ url }) => {
-  console.log(`🚀  Server ready at: ${url}`);
+  logger.info(`🚀  Server ready at: ${url}`);
 });

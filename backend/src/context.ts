@@ -1,4 +1,4 @@
-import JsonPlaceholderAPI from "./jsonplaceholder-api";
+import JsonPlaceholderAPI from "./dataSources/JSONPlaceholderAPI";
 
 export const context = async () => {
   return {

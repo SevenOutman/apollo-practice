@@ -1,5 +1,5 @@
-import { RESTDataSource } from "@apollo/datasource-rest";
 import { z } from "zod";
+import { RESTDataSource } from "./RESTDataSource";
 
 const UserSchema = z.object({
   id: z.number(),
