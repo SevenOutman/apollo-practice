@@ -33,13 +33,13 @@ export default class UserServiceRPC extends JSONRPCDataSource<Methods> {
 
   async listUsers() {
     return this.request("listUsers").then((data) =>
-      UserSchema.array().parse(data)
+      UserSchema.array().parse(data),
     );
   }
 
   async getUser(id: number) {
     return this.request("getUserById", id).then((data) =>
-      UserSchema.parse(data)
+      UserSchema.parse(data),
     );
   }
 }

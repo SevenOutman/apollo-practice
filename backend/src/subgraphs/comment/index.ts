@@ -7,7 +7,7 @@ import { ContextValue } from "../../context";
 export const typeDefs = gql(
   readFileSync(path.resolve(__dirname, "./schema.graphql"), {
     encoding: "utf-8",
-  })
+  }),
 );
 
 export const resolvers: Resolvers<ContextValue> = {

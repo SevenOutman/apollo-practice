@@ -9,7 +9,7 @@ import { logger } from "../logger";
  * TODO: Implement caching
  */
 export abstract class JSONRPCDataSource<
-  Methods extends Record<string, (params?: any) => any>
+  Methods extends Record<string, (params?: any) => any>,
 > {
   protected abstract baseURL: string;
 
@@ -28,17 +28,17 @@ export abstract class JSONRPCDataSource<
           // Use client.receive when you received a JSON-RPC response.
           return response.json().then((jsonRPCResponse) =>
             // TODO: handle mal-formatted response
-            this.client.receive(jsonRPCResponse as JSONRPCResponse)
+            this.client.receive(jsonRPCResponse as JSONRPCResponse),
           );
         } else if (jsonRPCRequest.id !== undefined) {
           return Promise.reject(new Error(response.statusText));
         }
-      })
+      }),
   );
 
   protected async request<Method extends Extract<keyof Methods, string>>(
     method: Method,
-    params?: Parameters<Methods[Method]>[0]
+    params?: Parameters<Methods[Method]>[0],
   ) {
     try {
       logger.info(`requesting ${method}`, params);

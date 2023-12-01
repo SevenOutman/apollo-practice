@@ -41,7 +41,7 @@ class JsonPlaceholderAPI extends RESTDataSource {
 
   async listTodosByUserId(userId: number) {
     return this.get(`/users/${userId}/todos`).then((data) =>
-      TodoSchema.array().parse(data)
+      TodoSchema.array().parse(data),
     );
   }
 
@@ -63,7 +63,6 @@ class JsonPlaceholderAPI extends RESTDataSource {
       body: PostSchema.array().parse(parsedBody),
     }));
   }
-
 
   async createComment(input: {
     postId: number;
@@ -101,7 +100,7 @@ class JsonPlaceholderAPI extends RESTDataSource {
 
   async listPhotosByAlbumId(
     albumId: number,
-    params?: { first?: number | null }
+    params?: { first?: number | null },
   ) {
     return this.get(`/albums/${albumId}/photos`, {
       params: {

@@ -12,12 +12,12 @@ server.addMethod("echo", ({ text }) => text);
 server.addMethod("log", ({ message }) => console.log(message));
 
 server.addMethod("listUsers", () =>
-  fetch("https://jsonplaceholder.typicode.com/users").then((res) => res.json())
+  fetch("https://jsonplaceholder.typicode.com/users").then((res) => res.json()),
 );
 server.addMethod("getUserById", (id) =>
   fetch(`https://jsonplaceholder.typicode.com/users/${id}`).then((res) =>
-    res.json()
-  )
+    res.json(),
+  ),
 );
 
 const app = express();

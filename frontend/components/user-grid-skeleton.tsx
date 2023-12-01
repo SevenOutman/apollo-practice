@@ -3,7 +3,6 @@
  * @see https://v0.dev/t/ArOrJUIlBMc
  */
 
-
 export function UserGridSkeleton() {
   return (
     <div className="grid grid-cols-3 gap-4">
@@ -26,5 +25,5 @@ export function UserGridSkeleton() {
         <div className="h-4 mt-2 bg-blue-200 dark:bg-blue-700 rounded w-full" />
       </div>
     </div>
-  )
+  );
 }

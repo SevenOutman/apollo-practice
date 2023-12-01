@@ -16,7 +16,7 @@ routeServer.bindAsync(
   grpc.ServerCredentials.createInsecure(),
   () => {
     routeServer.start();
-  }
+  },
 );
 
 function listCommentsByPostId(call, callback) {
