@@ -27,7 +27,7 @@ export const resolvers: Resolvers<ContextValue> = {
 
   Album: {
     creator: async ({ userId }, _, { dataSources }) => {
-      return dataSources.jsonplaceholderAPI.getUser(userId!);
+      return dataSources.userServiceRpc.getUser(userId!);
     },
     photos: async ({ id }, { first }, { dataSources }) => {
       return dataSources.jsonplaceholderAPI.listPhotosByAlbumId(id!, { first });

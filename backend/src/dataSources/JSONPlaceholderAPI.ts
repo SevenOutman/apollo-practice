@@ -1,27 +1,6 @@
 import { z } from "zod";
 import { RESTDataSource } from "./RESTDataSource";
 
-const UserSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  username: z.string(),
-  email: z.string(),
-  address: z.object({
-    street: z.string(),
-    suite: z.string(),
-    city: z.string(),
-    zipcode: z.string(),
-    geo: z.object({ lat: z.string(), lng: z.string() }),
-  }),
-  phone: z.string(),
-  website: z.string(),
-  company: z.object({
-    name: z.string(),
-    catchPhrase: z.string(),
-    bs: z.string(),
-  }),
-});
-
 const TodoSchema = z.object({
   id: z.number(),
   title: z.string(),
@@ -59,14 +38,6 @@ const PhotoSchema = z.object({
 
 class JsonPlaceholderAPI extends RESTDataSource {
   override baseURL = "https://jsonplaceholder.typicode.com";
-
-  async listUsers() {
-    return this.get("/users").then((data) => UserSchema.array().parse(data));
-  }
-
-  async getUser(id: number) {
-    return this.get(`/users/${id}`).then((data) => UserSchema.parse(data));
-  }
 
   async listTodosByUserId(userId: number) {
     return this.get(`/users/${userId}/todos`).then((data) =>

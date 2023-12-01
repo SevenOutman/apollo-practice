@@ -13,12 +13,10 @@ export const typeDefs = gql(
 export const resolvers: Resolvers<ContextValue> = {
   Query: {
     users: async (_, __, { dataSources }) => {
-      return dataSources.jsonplaceholderAPI.listUsers();
+      return dataSources.userServiceRpc.listUsers();
     },
     user: async (_, { id }, { dataSources }) => {
-      const user = await dataSources.jsonplaceholderAPI.getUser(id);
-
-      return user;
+      return dataSources.userServiceRpc.getUser(id);
     },
   },
 };
