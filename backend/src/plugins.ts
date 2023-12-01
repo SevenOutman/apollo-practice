@@ -4,7 +4,11 @@ import { logger } from "./logger";
 export const logRequest: ApolloServerPlugin = {
   // Fires whenever a GraphQL request is received from a client.
   async requestDidStart(requestContext) {
-    logger.debug("Request started! Query:\n" + requestContext.request.query);
+    logger.debug(`requestDidStart
+Query:
+${requestContext.request.query}
+Variables:
+${JSON.stringify(requestContext.request.variables, null, 2)}`);
 
     return {
       // Fires whenever Apollo Server will parse a GraphQL

@@ -23,5 +23,4 @@ export const resolvers: Resolvers<ContextValue> = {
       return { comment };
     },
   },
-  
 };
