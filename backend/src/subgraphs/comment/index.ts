@@ -13,7 +13,7 @@ export const typeDefs = gql(
 export const resolvers: Resolvers<ContextValue> = {
   Post: {
     comments: async ({ id }, _, { dataSources }) => {
-      return dataSources.jsonplaceholderAPI.listCommentsByPostId(id!);
+      return dataSources.commentServiceRpc.listCommentsByPostId(id!) as any;
     },
   },
   Mutation: {

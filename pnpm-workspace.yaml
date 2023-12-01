@@ -2,3 +2,4 @@ packages:
   - frontend
   - backend
   - user-service
+  - comment-service

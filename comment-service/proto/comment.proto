@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package apollo_practice;
+
+service CommentService {
+  rpc ListCommentsByPostId(ListCommentsByPostIdRequest) returns (ListCommentsByPostIdResponse) {};
+}
+
+message ListCommentsByPostIdRequest {
+  int32 postId = 1;
+}
+message ListCommentsByPostIdResponse {
+  repeated ListCommentsByPostIdResponseEntry comments = 1;
+} 
+
+message ListCommentsByPostIdResponseEntry {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+  string body = 4;
+}

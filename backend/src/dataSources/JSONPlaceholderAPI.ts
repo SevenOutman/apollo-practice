@@ -64,11 +64,6 @@ class JsonPlaceholderAPI extends RESTDataSource {
     }));
   }
 
-  async listCommentsByPostId(postId: number) {
-    return this.get(`/posts/${postId}/comments`).then((data) =>
-      CommentSchema.array().parse(data)
-    );
-  }
 
   async createComment(input: {
     postId: number;
