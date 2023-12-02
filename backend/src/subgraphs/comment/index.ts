@@ -7,7 +7,7 @@ import { ContextValue } from "../../context";
 export const typeDefs = gql(
   readFileSync(path.resolve(__dirname, "./schema.graphql"), {
     encoding: "utf-8",
-  }),
+  })
 );
 
 export const resolvers: Resolvers<ContextValue> = {
@@ -18,7 +18,7 @@ export const resolvers: Resolvers<ContextValue> = {
   },
   Mutation: {
     createComment: async (_, { input }, { dataSources }) => {
-      const comment = await dataSources.jsonplaceholderAPI.createComment(input);
+      const comment = await dataSources.commentServiceRpc.createComment(input);
 
       return { comment };
     },

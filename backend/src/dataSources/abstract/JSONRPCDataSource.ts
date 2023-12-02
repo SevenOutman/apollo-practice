@@ -3,7 +3,7 @@ import {
   type JSONRPCResponse,
   type TypedJSONRPCClient,
 } from "json-rpc-2.0";
-import { logger } from "../logger";
+import { logger } from "../../logger";
 
 /**
  * TODO: Implement caching

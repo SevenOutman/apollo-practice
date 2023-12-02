@@ -1,22 +1,23 @@
-var grpc = require("@grpc/grpc-js");
+const grpc = require("@grpc/grpc-js");
 const protoDescriptor = require("./protoDescriptor");
-// The protoDescriptor object has the full package hierarchy
-var routeguide = protoDescriptor.apollo_practice;
 
 function getServer() {
   var server = new grpc.Server();
-  server.addService(routeguide.CommentService.service, {
+  server.addService(protoDescriptor.apollo_practice.CommentService.service, {
     listCommentsByPostId,
+    createComment,
   });
   return server;
 }
-var routeServer = getServer();
+
+const routeServer = getServer();
 routeServer.bindAsync(
-  "0.0.0.0:4002",
+  "0.0.0.0:50051",
   grpc.ServerCredentials.createInsecure(),
   () => {
     routeServer.start();
-  },
+    console.log("Server running at http://0.0.0.0:50051");
+  }
 );
 
 function listCommentsByPostId(call, callback) {
@@ -24,7 +25,25 @@ function listCommentsByPostId(call, callback) {
 
   fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
     .then((res) => res.json())
-    .then((comments) => {
-      callback(null, { comments });
-    });
+    .then(
+      (comments) => {
+        callback(null, { comments });
+      },
+      (err) => callback(err)
+    );
+}
+
+function createComment(call, callback) {
+  fetch(`https://jsonplaceholder.typicode.com/comments`, {
+    method: "POST",
+    body: JSON.stringify(call.request),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  })
+    .then((res) => res.json())
+    .then(
+      (data) => callback(null, { comment: data }),
+      (err) => callback(err)
+    );
 }

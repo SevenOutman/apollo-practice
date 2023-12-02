@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { RESTDataSource } from "./RESTDataSource";
+import { RESTDataSource } from "./abstract/RESTDataSource";
 
 const TodoSchema = z.object({
   id: z.number(),
@@ -12,14 +12,6 @@ const PostSchema = z.object({
   title: z.string(),
   body: z.string(),
   userId: z.number(),
-});
-
-const CommentSchema = z.object({
-  postId: z.number(),
-  id: z.number(),
-  name: z.string(),
-  email: z.string(),
-  body: z.string(),
 });
 
 const AlbumSchema = z.object({
@@ -41,7 +33,7 @@ class JsonPlaceholderAPI extends RESTDataSource {
 
   async listTodosByUserId(userId: number) {
     return this.get(`/users/${userId}/todos`).then((data) =>
-      TodoSchema.array().parse(data),
+      TodoSchema.array().parse(data)
     );
   }
 
@@ -62,20 +54,6 @@ class JsonPlaceholderAPI extends RESTDataSource {
       headers: response.headers,
       body: PostSchema.array().parse(parsedBody),
     }));
-  }
-
-  async createComment(input: {
-    postId: number;
-    name: string;
-    email: string;
-    body: string;
-  }) {
-    return this.post(`/comments`, {
-      body: JSON.stringify(input),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    }).then((data) => CommentSchema.parse(data));
   }
 
   async listAlbums(params?: { first?: number | null }) {
@@ -100,7 +78,7 @@ class JsonPlaceholderAPI extends RESTDataSource {
 
   async listPhotosByAlbumId(
     albumId: number,
-    params?: { first?: number | null },
+    params?: { first?: number | null }
   ) {
     return this.get(`/albums/${albumId}/photos`, {
       params: {

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { JSONRPCDataSource } from "./JSONRPCDataSource";
+import { JSONRPCDataSource } from "./abstract/JSONRPCDataSource";
 import { User } from "../__generated__/resolvers-types";
 
 const UserSchema = z.object({

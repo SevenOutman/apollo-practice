@@ -1,19 +1,34 @@
+import { z } from "zod";
 import createClient from "comment-service/client";
-import { logger } from "../logger";
+import { Comment, CreateCommentInput } from "../__generated__/resolvers-types";
+import { GRPCDataSource } from "./abstract/GRPCDataSource";
 
-export default class CommentServiceRPC {
-  protected client = createClient("localhost:4002");
+const CommentSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  email: z.string(),
+  body: z.string(),
+});
+
+type Methods = {
+  listCommentsByPostId(request: { postId: number }): Comment[];
+  createComment(input: CreateCommentInput): Comment;
+};
+
+export default class CommentServiceRPC extends GRPCDataSource<Methods> {
+  protected override client = createClient("localhost:50051");
 
   async listCommentsByPostId(postId: number) {
-    return new Promise((resolve, reject) => {
-      logger.info("gRPC: ListCommentsByPostId", { postId });
-      this.client.listCommentsByPostId({ postId }, function (err, response) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(response.comments);
-        }
-      });
-    });
+    return this.request("listCommentsByPostId", { postId }).then((response) =>
+      CommentSchema.array().parse(response.comments)
+    );
+  }
+
+  async createComment(
+    input: CreateCommentInput
+  ): Promise<Omit<Comment, "postId">> {
+    return this.request("createComment", input).then((response) =>
+      CommentSchema.parse(response.comment)
+    );
   }
 }

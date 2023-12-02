@@ -4,18 +4,30 @@ package apollo_practice;
 
 service CommentService {
   rpc ListCommentsByPostId(ListCommentsByPostIdRequest) returns (ListCommentsByPostIdResponse) {};
+  rpc CreateComment(CreateCommentRequest) returns (CreateCommentResponse) {};
 }
 
 message ListCommentsByPostIdRequest {
   int32 postId = 1;
 }
 message ListCommentsByPostIdResponse {
-  repeated ListCommentsByPostIdResponseEntry comments = 1;
+  repeated Comment comments = 1;
 } 
 
-message ListCommentsByPostIdResponseEntry {
+message Comment {
   int32 id = 1;
   string name = 2;
   string email = 3;
   string body = 4;
+}
+
+message CreateCommentRequest {
+  int32 postId = 1;
+  string name = 2;
+  string email = 3;
+  string body = 4;
+}
+
+message CreateCommentResponse {
+  Comment comment = 1;
 }
