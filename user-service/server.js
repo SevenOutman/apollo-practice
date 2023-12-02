@@ -1,6 +1,8 @@
+require("./instrumentation");
 const express = require("express");
 const bodyParser = require("body-parser");
 const { JSONRPCServer } = require("json-rpc-2.0");
+const axios = require("axios");
 
 const server = new JSONRPCServer();
 
@@ -12,18 +14,21 @@ server.addMethod("echo", ({ text }) => text);
 server.addMethod("log", ({ message }) => console.log(message));
 
 server.addMethod("listUsers", () =>
-  fetch("https://jsonplaceholder.typicode.com/users").then((res) => res.json()),
+  axios
+    .get("https://jsonplaceholder.typicode.com/users")
+    .then((res) => res.data)
 );
 server.addMethod("getUserById", (id) =>
-  fetch(`https://jsonplaceholder.typicode.com/users/${id}`).then((res) =>
-    res.json(),
-  ),
+  axios
+    .get(`https://jsonplaceholder.typicode.com/users/${id}`)
+    .then((res) => res.data)
 );
 
 const app = express();
 app.use(bodyParser.json());
 
 app.post("/json-rpc", (req, res) => {
+  console.debug("request headers", req.headers);
   const jsonRPCRequest = req.body;
   // server.receive takes a JSON-RPC request and returns a promise of a JSON-RPC response.
   // It can also receive an array of requests, in which case it may return an array of responses.
@@ -39,4 +44,6 @@ app.post("/json-rpc", (req, res) => {
   });
 });
 
-app.listen(4001);
+app.listen(4001, () => {
+  console.log("JSON-RPC server is listening on port 4001");
+});

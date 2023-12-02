@@ -3,6 +3,7 @@ import {
   type JSONRPCResponse,
   type TypedJSONRPCClient,
 } from "json-rpc-2.0";
+import axios from "axios";
 import { logger } from "../../logger";
 
 /**
@@ -16,29 +17,22 @@ export abstract class JSONRPCDataSource<
   // JSONRPCClient needs to know how to send a JSON-RPC request.
   // Tell it by passing a function to its constructor. The function must take a JSON-RPC request and send it.
   protected client: TypedJSONRPCClient<Methods> = new JSONRPCClient(
-    (jsonRPCRequest) =>
-      fetch(this.baseURL, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(jsonRPCRequest),
-      }).then((response) => {
+    (jsonRPCRequest) => {
+      return axios.post(this.baseURL, jsonRPCRequest).then((response) => {
         if (response.status === 200) {
           // Use client.receive when you received a JSON-RPC response.
-          return response.json().then((jsonRPCResponse) =>
-            // TODO: handle mal-formatted response
-            this.client.receive(jsonRPCResponse as JSONRPCResponse),
-          );
+          // TODO: handle mal-formatted response
+          return this.client.receive(response.data);
         } else if (jsonRPCRequest.id !== undefined) {
           return Promise.reject(new Error(response.statusText));
         }
-      }),
+      });
+    }
   );
 
   protected async request<Method extends Extract<keyof Methods, string>>(
     method: Method,
-    params?: Parameters<Methods[Method]>[0],
+    params?: Parameters<Methods[Method]>[0]
   ) {
     try {
       logger.info(`requesting ${method}`, params);
