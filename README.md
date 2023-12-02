@@ -8,6 +8,7 @@ This repo is a practice of using Apollo Server as a BFF that aggregates various 
 - Data sources (REST, gRPC, JSON RPC)
 - Logging
 - Plugins
+- Tracing
 
 ## Architecture
 
