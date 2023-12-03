@@ -30,6 +30,19 @@ This repo is a practice of using Apollo Server as a BFF that aggregates various 
       post-service-- REST API -->jsonplaceholder
 ```
 
+## Logging
+
+Logging is done with Winston in a whitelist manner (implemented as a custom format).
+Only registered messages are logged.
+
+```ts
+import { logger, messages } from "./logging";
+
+logger.info(messages.info.serverStarted(url)); // info: Server started at http://localhost:4000
+
+logger.info("Server started"); // info: Unregistered "info" level message
+```
+
 ## Tracing
 
 Tracing is reported in OpenTelemetry format to a local Jaeger instance.
