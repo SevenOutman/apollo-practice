@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createCommentServiceClient } from "comment-service/client";
+import { createCommentServiceClient } from "post-service/client";
 import { Comment, CreateCommentInput } from "../__generated__/resolvers-types";
 import { GRPCDataSource } from "./abstract/GRPCDataSource";
 

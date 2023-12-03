@@ -29,7 +29,7 @@
     "@opentelemetry/sdk-trace-base": "1.0",
     "@opentelemetry/sdk-trace-node": "1.0",
     "axios": "^1.6.2",
-    "comment-service": "workspace:^",
+    "post-service": "workspace:^",
     "graphql": "^16.8.1",
     "graphql-tag": "^2.12.6",
     "json-rpc-2.0": "^1.7.0",

@@ -18,7 +18,7 @@ This repo is a practice of using Apollo Server as a BFF that aggregates various 
       subgraph Domestic
         frontend[Frontend] -- GraphQL -->bff[BFF]
         bff-- JSON RPC -->user-service["User service"]
-        bff-- gRPC -->comment-service["Comment service"]
+        bff-- gRPC -->post-service["Post service"]
       end
 
       subgraph thrid-party[Third-party services]
@@ -27,5 +27,5 @@ This repo is a practice of using Apollo Server as a BFF that aggregates various 
 
       bff-- REST API -->jsonplaceholder[JSONPlaceholder]
       user-service-- REST API -->jsonplaceholder
-      comment-service-- REST API -->jsonplaceholder
+      post-service-- REST API -->jsonplaceholder
 ```

@@ -24,7 +24,7 @@ const provider = new NodeTracerProvider({
   resource: Resource.default().merge(
     new Resource({
       // Replace with any string to identify this service in your system
-      "service.name": "comment-service",
+      "service.name": "post-service",
     })
   ),
 });
