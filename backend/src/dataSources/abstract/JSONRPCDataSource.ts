@@ -6,7 +6,12 @@ import {
   type TypedJSONRPCClient,
 } from "json-rpc-2.0";
 import axios from "axios";
-import { Attributes, SpanStatusCode, trace } from "@opentelemetry/api";
+import {
+  Attributes,
+  SpanKind,
+  SpanStatusCode,
+  trace,
+} from "@opentelemetry/api";
 import { logger } from "../../logging";
 
 const tracer = trace.getTracer("default");
@@ -34,26 +39,31 @@ export abstract class JSONRPCDataSource<
          * @see https://opentelemetry.io/docs/specs/semconv/rpc/rpc-spans/#span-name
          */
         this.serviceName + "/" + jsonRPCRequest.method,
+        {
+          kind: SpanKind.CLIENT,
+          attributes: {
+            /**
+             * RPC Common Attributes
+             * @see https://opentelemetry.io/docs/specs/semconv/rpc/rpc-spans/#common-attributes
+             */
+            "server.address": new URL(this.baseURL).host,
+            "rpc.system": "jsonrpc",
+            "rpc.service": this.serviceName,
+            "rpc.method": jsonRPCRequest.method,
+            /**
+             * JSON RPC Attributes
+             * @see https://opentelemetry.io/docs/specs/semconv/rpc/json-rpc/#json-rpc-attributes
+             */
+            "rpc.jsonrpc.version": jsonRPCRequest.jsonrpc,
+          },
+        },
         (span) => {
-          /**
-           * RPC Common Attributes
-           * @see https://opentelemetry.io/docs/specs/semconv/rpc/rpc-spans/#common-attributes
-           */
-          span.setAttribute("server.address", new URL(this.baseURL).host);
-          span.setAttribute("rpc.system", "jsonrpc");
-          span.setAttribute("rpc.service", this.serviceName);
-          /**
-           * JSON RPC Attributes
-           * @see https://opentelemetry.io/docs/specs/semconv/rpc/json-rpc/#json-rpc-attributes
-           */
-          span.setAttribute("rpc.jsonrpc.version", jsonRPCRequest.jsonrpc);
           if (
             typeof jsonRPCRequest.id !== "undefined" &&
             jsonRPCRequest.id !== null
           ) {
             span.setAttribute("rpc.jsonrpc.request_id", jsonRPCRequest.id);
           }
-          span.setAttribute("rpc.method", jsonRPCRequest.method);
 
           span.addEvent("request", {
             "message.type": "SENT",
