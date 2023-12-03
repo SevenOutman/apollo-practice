@@ -8,7 +8,7 @@ type MessageBag = {
   };
 };
 
-export function defineMessages(messages: MessageBag) {
+export function defineMessages<T extends MessageBag>(messages: T): T {
   return Object.getOwnPropertyNames(messages).reduce((acc, level) => {
     return {
       ...acc,
@@ -31,7 +31,7 @@ export function defineMessages(messages: MessageBag) {
         {}
       ),
     };
-  }, {});
+  }, {}) as T;
 }
 
 export const restrictedMessages = format(

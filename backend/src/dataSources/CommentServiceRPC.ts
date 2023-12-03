@@ -16,6 +16,7 @@ type Methods = {
 };
 
 export default class CommentServiceRPC extends GRPCDataSource<Methods> {
+  protected override serviceName = "CommentService";
   protected override client = createCommentServiceClient("localhost:50051");
 
   async listCommentsByPostId(postId: number) {

@@ -1,18 +1,12 @@
 import {
   JSONRPCClient,
-  JSONRPCSuccessResponse,
   type JSONRPCRequest,
   type JSONRPCResponse,
   type TypedJSONRPCClient,
 } from "json-rpc-2.0";
 import axios from "axios";
-import {
-  Attributes,
-  SpanKind,
-  SpanStatusCode,
-  trace,
-} from "@opentelemetry/api";
-import { logger } from "../../logging";
+import { SpanKind, SpanStatusCode, trace } from "@opentelemetry/api";
+import { logger, messages } from "../../logging";
 
 const tracer = trace.getTracer("default");
 
@@ -120,7 +114,9 @@ export abstract class JSONRPCDataSource<
     params?: Parameters<Methods[Method]>[0]
   ) {
     try {
-      logger.info(`requesting ${method}`, params);
+      logger.info(
+        messages.info.jsonRpcRequest(this.serviceName + "/" + method, params)
+      );
       return await this.client.request(method, params, void 0);
     } catch (error) {
       this.didEncounterError(error as Error);

@@ -15,6 +15,7 @@ type Methods = {
 };
 
 export default class PostServiceRPC extends GRPCDataSource<Methods> {
+  protected override serviceName = "PostService";
   protected override client = createPostServiceClient("localhost:50051");
 
   async getPostById(id: number) {

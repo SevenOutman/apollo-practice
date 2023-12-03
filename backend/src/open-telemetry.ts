@@ -1,10 +1,10 @@
 // Import required symbols
 const { Resource } = require("@opentelemetry/resources");
-const {
+import {
   SimpleSpanProcessor,
   BatchSpanProcessor,
   ConsoleSpanExporter,
-} = require("@opentelemetry/sdk-trace-base");
+} from "@opentelemetry/sdk-trace-base";
 const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
 const { registerInstrumentations } = require("@opentelemetry/instrumentation");
 const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
@@ -40,7 +40,7 @@ const provider = new NodeTracerProvider({
 });
 
 // Configure a test exporter to print all traces to the console
-const consoleExporter = new ConsoleSpanExporter();
+// const consoleExporter = new ConsoleSpanExporter();
 // provider.addSpanProcessor(new SimpleSpanProcessor(consoleExporter));
 provider.addSpanProcessor(
   new BatchSpanProcessor(

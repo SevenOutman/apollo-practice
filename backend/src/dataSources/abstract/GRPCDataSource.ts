@@ -1,4 +1,4 @@
-import { logger } from "../../logging";
+import { logger, messages } from "../../logging";
 
 /**
  * TODO: Implement caching
@@ -6,6 +6,7 @@ import { logger } from "../../logging";
 export abstract class GRPCDataSource<
   Methods extends Record<string, (params?: any) => any>,
 > {
+  protected abstract serviceName: string;
   protected abstract client: any;
 
   protected async request<Method extends Extract<keyof Methods, string>>(
@@ -13,7 +14,9 @@ export abstract class GRPCDataSource<
     params?: Parameters<Methods[Method]>[0]
   ) {
     try {
-      logger.info(`requesting ${method}`, params);
+      logger.info(
+        messages.info.gRpcRequest(this.serviceName + "/" + method, params)
+      );
       return await new Promise((resolve, reject) => {
         this.client[method](params, function (err: Error, response: any) {
           if (err) {
