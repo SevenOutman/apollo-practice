@@ -56,3 +56,7 @@ Components with tracing include:
 An example trace:
 
 ![Screenshot of Jaeger UI](./trace.png)
+
+## TODO
+
+- [ ] Authentication & authorization
