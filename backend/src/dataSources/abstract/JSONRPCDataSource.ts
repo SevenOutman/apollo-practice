@@ -4,7 +4,7 @@ import {
   type TypedJSONRPCClient,
 } from "json-rpc-2.0";
 import axios from "axios";
-import { logger } from "../../logger";
+import { logger } from "../../logging";
 
 /**
  * TODO: Implement caching

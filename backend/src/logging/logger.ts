@@ -1,8 +1,10 @@
 import { createLogger, format, transports } from "winston";
+import { restrictedMessages } from "./restrictedMessages";
+import { messages } from "./messages";
 
 export const logger = createLogger({
   level: "info",
-  format: format.json(),
+  format: format.combine(format.json(), restrictedMessages({ messages })),
   transports: [
     //
     // - Write all logs with importance level of `error` or less to `error.log`
@@ -22,6 +24,6 @@ if (process.env.NODE_ENV !== "production") {
   logger.add(
     new transports.Console({
       format: format.combine(format.colorize(), format.simple()),
-    }),
+    })
   );
 }

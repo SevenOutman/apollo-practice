@@ -9,7 +9,7 @@ import * as commentSubgraph from "./subgraphs/comment";
 import * as albumSubgraph from "./subgraphs/album";
 import { ContextValue, context } from "./context";
 import gql from "graphql-tag";
-import { logger } from "./logger";
+import { logger, messages } from "./logging";
 import { logRequest } from "./plugins";
 
 const server = new ApolloServer<ContextValue>({
@@ -43,5 +43,5 @@ startStandaloneServer(server, {
   context,
   listen: { port: 4000 },
 }).then(({ url }) => {
-  logger.info(`🚀  Server ready at: ${url}`);
+  logger.info(messages.info.serverStarted(url));
 });

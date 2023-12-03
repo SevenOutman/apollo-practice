@@ -1,5 +1,5 @@
 import type { ApolloServerPlugin } from "@apollo/server";
-import { logger } from "./logger";
+import { logger } from "./logging";
 
 export const logRequest: ApolloServerPlugin = {
   // Fires whenever a GraphQL request is received from a client.
