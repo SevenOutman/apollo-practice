@@ -1,5 +1,6 @@
 import JsonPlaceholderAPI from "./dataSources/JSONPlaceholderAPI";
 import UserServiceRPC from "./dataSources/UserServiceRPC";
+import PostServiceRPC from "./dataSources/PostServiceRPC";
 import CommentServiceRPC from "./dataSources/CommentServiceRPC";
 
 export const context = async () => {
@@ -7,6 +8,7 @@ export const context = async () => {
     dataSources: {
       jsonplaceholderAPI: new JsonPlaceholderAPI(),
       userServiceRpc: new UserServiceRPC(),
+      postServiceRpc: new PostServiceRPC(),
       commentServiceRpc: new CommentServiceRPC(),
     },
   };

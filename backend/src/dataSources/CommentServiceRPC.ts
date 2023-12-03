@@ -1,5 +1,5 @@
 import { z } from "zod";
-import createClient from "comment-service/client";
+import { createCommentServiceClient } from "comment-service/client";
 import { Comment, CreateCommentInput } from "../__generated__/resolvers-types";
 import { GRPCDataSource } from "./abstract/GRPCDataSource";
 
@@ -16,7 +16,7 @@ type Methods = {
 };
 
 export default class CommentServiceRPC extends GRPCDataSource<Methods> {
-  protected override client = createClient("localhost:50051");
+  protected override client = createCommentServiceClient("localhost:50051");
 
   async listCommentsByPostId(postId: number) {
     return this.request("listCommentsByPostId", { postId }).then((response) =>

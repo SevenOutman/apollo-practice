@@ -7,7 +7,7 @@ import { ContextValue } from "../../context";
 export const typeDefs = gql(
   readFileSync(path.resolve(__dirname, "./schema.graphql"), {
     encoding: "utf-8",
-  }),
+  })
 );
 
 export const resolvers: Resolvers<ContextValue> = {
@@ -16,7 +16,7 @@ export const resolvers: Resolvers<ContextValue> = {
       return dataSources.jsonplaceholderAPI.listPosts();
     },
     post: async (_, { id }, { dataSources }) => {
-      return dataSources.jsonplaceholderAPI.getPostById(id);
+      return dataSources.postServiceRpc.getPostById(id);
     },
   },
   Post: {

@@ -41,10 +41,6 @@ class JsonPlaceholderAPI extends RESTDataSource {
     return this.get(`/posts`).then((data) => PostSchema.array().parse(data));
   }
 
-  async getPostById(id: number) {
-    return this.get(`/posts/${id}`).then((data) => PostSchema.parse(data));
-  }
-
   async listPostsByUserId(userId: number, params?: { first?: number | null }) {
     return this.fetch(`/users/${userId}/posts`, {
       params: {

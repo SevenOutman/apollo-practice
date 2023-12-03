@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+package apollo_practice;
+
+import "post.proto";
+import "comment.proto";
