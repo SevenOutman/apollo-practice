@@ -1,4 +1,6 @@
+require("./instrumentation");
 const grpc = require("@grpc/grpc-js");
+const axios = require("axios");
 const protoDescriptor = require("./protoDescriptor");
 
 function getServer() {
@@ -23,8 +25,9 @@ routeServer.bindAsync(
 function listCommentsByPostId(call, callback) {
   const postId = call.request.postId;
 
-  fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
-    .then((res) => res.json())
+  axios
+    .get(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
+    .then((res) => res.data)
     .then(
       (comments) => {
         callback(null, { comments });
@@ -34,14 +37,9 @@ function listCommentsByPostId(call, callback) {
 }
 
 function createComment(call, callback) {
-  fetch(`https://jsonplaceholder.typicode.com/comments`, {
-    method: "POST",
-    body: JSON.stringify(call.request),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-  })
-    .then((res) => res.json())
+  axios
+    .post(`https://jsonplaceholder.typicode.com/comments`, call.request)
+    .then((res) => res.data)
     .then(
       (data) => callback(null, { comment: data }),
       (err) => callback(err)

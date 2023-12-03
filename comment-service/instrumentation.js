@@ -8,24 +8,14 @@ const {
 const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
 const { registerInstrumentations } = require("@opentelemetry/instrumentation");
 const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
-import { GrpcInstrumentation } from "@opentelemetry/instrumentation-grpc";
+const { GrpcInstrumentation } = require("@opentelemetry/instrumentation-grpc");
 const {
-  ExpressInstrumentation,
-} = require("@opentelemetry/instrumentation-express");
-// **DELETE IF SETTING UP A GATEWAY, UNCOMMENT OTHERWISE**
-const {
-  GraphQLInstrumentation,
-} = require("@opentelemetry/instrumentation-graphql");
-import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
+  OTLPTraceExporter,
+} = require("@opentelemetry/exporter-trace-otlp-http");
 
 // Register server-related instrumentation
 registerInstrumentations({
-  instrumentations: [
-    new HttpInstrumentation(),
-    new ExpressInstrumentation(),
-    new GraphQLInstrumentation(),
-    new GrpcInstrumentation(),
-  ],
+  instrumentations: [new HttpInstrumentation(), new GrpcInstrumentation()],
 });
 
 // Initialize provider and identify this particular service
@@ -34,7 +24,7 @@ const provider = new NodeTracerProvider({
   resource: Resource.default().merge(
     new Resource({
       // Replace with any string to identify this service in your system
-      "service.name": "bff",
+      "service.name": "comment-service",
     })
   ),
 });
