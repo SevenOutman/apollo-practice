@@ -10,6 +10,16 @@ function getPostById(call, callback) {
     );
 }
 
+function deletePostById(call, callback) {
+  axios
+    .delete(`https://jsonplaceholder.typicode.com/posts/${call.request.id}`)
+    .then(
+      () => callback(null),
+      (err) => callback(err)
+    );
+}
+
 module.exports = {
   getPostById,
+  deletePostById,
 };

@@ -3,6 +3,7 @@ import { gql } from "graphql-tag";
 import { Resolvers } from "../../__generated__/resolvers-types";
 import path from "path";
 import { ContextValue } from "../../context";
+import { GraphQLError } from "graphql";
 
 export const typeDefs = gql(
   readFileSync(path.resolve(__dirname, "./schema.graphql"), {
@@ -36,6 +37,40 @@ export const resolvers: Resolvers<ContextValue> = {
           ? parseInt(headers.get("X-Total-Count")!)
           : null,
       };
+    },
+  },
+
+  Mutation: {
+    deletePost: async (_, { input }, { dataSources, user }) => {
+      if (!user) {
+        throw new GraphQLError("Not authenticated", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
+
+      const post = await dataSources.postServiceRpc.getPostById(input.id);
+
+      if (!post) {
+        throw new GraphQLError("Post not found.", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
+      }
+
+      if (post.userId !== user.id) {
+        throw new GraphQLError("You are not authorized to delete this post.", {
+          extensions: {
+            code: "FORBIDDEN",
+          },
+        });
+      }
+
+      await dataSources.postServiceRpc.deletePost(input.id);
+
+      return { post };
     },
   },
 };

@@ -1,9 +1,12 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 package apollo_practice;
 
 service PostService {
   rpc GetPostById(GetPostByIdRequest) returns (GetPostByIdResponse) {};
+  rpc DeletePostById(DeletePostByIdRequest) returns (google.protobuf.Empty) {};
 }
 
 message Post {
@@ -19,4 +22,8 @@ message GetPostByIdRequest {
 
 message GetPostByIdResponse {
   Post post = 1;
+}
+
+message DeletePostByIdRequest {
+  int32 id = 1;
 }

@@ -3,6 +3,10 @@ extend type Query {
   post(id: Int!): Post
 }
 
+extend type Mutation {
+  deletePost(input: DeletePostInput!): DeletePostPayload!
+}
+
 type Post {
   userId: Int!
   id: Int!
@@ -24,4 +28,12 @@ type UserPostConnection {
 type UserPostEdge {
   node: Post!
   cursor: String!
+}
+
+input DeletePostInput {
+  id: Int!
+}
+
+type DeletePostPayload {
+  post: Post
 }

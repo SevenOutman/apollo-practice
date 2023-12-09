@@ -67,6 +67,15 @@ export type CreateCommentPayload = {
   comment: Comment;
 };
 
+export type DeletePostInput = {
+  id: Scalars['Int']['input'];
+};
+
+export type DeletePostPayload = {
+  __typename?: 'DeletePostPayload';
+  post?: Maybe<Post>;
+};
+
 export type Geo = {
   __typename?: 'Geo';
   lat?: Maybe<Scalars['String']['output']>;
@@ -87,12 +96,18 @@ export type Mutation = {
   __typename?: 'Mutation';
   _empty?: Maybe<Scalars['String']['output']>;
   createComment: CreateCommentPayload;
+  deletePost: DeletePostPayload;
   login: LoginPayload;
 };
 
 
 export type MutationCreateCommentArgs = {
   input: CreateCommentInput;
+};
+
+
+export type MutationDeletePostArgs = {
+  input: DeletePostInput;
 };
 
 
@@ -282,6 +297,8 @@ export type ResolversTypes = {
   Company: ResolverTypeWrapper<Partial<Company>>;
   CreateCommentInput: ResolverTypeWrapper<Partial<CreateCommentInput>>;
   CreateCommentPayload: ResolverTypeWrapper<Partial<CreateCommentPayload>>;
+  DeletePostInput: ResolverTypeWrapper<Partial<DeletePostInput>>;
+  DeletePostPayload: ResolverTypeWrapper<Partial<DeletePostPayload>>;
   Geo: ResolverTypeWrapper<Partial<Geo>>;
   Int: ResolverTypeWrapper<Partial<Scalars['Int']['output']>>;
   LoginInput: ResolverTypeWrapper<Partial<LoginInput>>;
@@ -307,6 +324,8 @@ export type ResolversParentTypes = {
   Company: Partial<Company>;
   CreateCommentInput: Partial<CreateCommentInput>;
   CreateCommentPayload: Partial<CreateCommentPayload>;
+  DeletePostInput: Partial<DeletePostInput>;
+  DeletePostPayload: Partial<DeletePostPayload>;
   Geo: Partial<Geo>;
   Int: Partial<Scalars['Int']['output']>;
   LoginInput: Partial<LoginInput>;
@@ -362,6 +381,11 @@ export type CreateCommentPayloadResolvers<ContextType = any, ParentType extends 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type DeletePostPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['DeletePostPayload'] = ResolversParentTypes['DeletePostPayload']> = {
+  post?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type GeoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Geo'] = ResolversParentTypes['Geo']> = {
   lat?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lng?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -377,6 +401,7 @@ export type LoginPayloadResolvers<ContextType = any, ParentType extends Resolver
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createComment?: Resolver<ResolversTypes['CreateCommentPayload'], ParentType, ContextType, RequireFields<MutationCreateCommentArgs, 'input'>>;
+  deletePost?: Resolver<ResolversTypes['DeletePostPayload'], ParentType, ContextType, RequireFields<MutationDeletePostArgs, 'input'>>;
   login?: Resolver<ResolversTypes['LoginPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
 };
 
@@ -459,6 +484,7 @@ export type Resolvers<ContextType = any> = {
   Comment?: CommentResolvers<ContextType>;
   Company?: CompanyResolvers<ContextType>;
   CreateCommentPayload?: CreateCommentPayloadResolvers<ContextType>;
+  DeletePostPayload?: DeletePostPayloadResolvers<ContextType>;
   Geo?: GeoResolvers<ContextType>;
   LoginPayload?: LoginPayloadResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;

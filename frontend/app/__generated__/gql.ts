@@ -17,6 +17,7 @@ const documents = {
     "\n  query GetAlbums {\n    albums(first: 4) {\n      id\n      title\n      creator {\n        name\n      }\n      photos(first: 1) {\n        url\n      }\n    }\n  }\n": types.GetAlbumsDocument,
     "\n  query GetPost($id: Int!) {\n    post(id: $id) {\n      title\n      body\n      author {\n        name\n      }\n      comments {\n        id\n        name\n        email\n        body\n      }\n    }\n  }\n": types.GetPostDocument,
     "\n  mutation CreateComment($input: CreateCommentInput!) {\n    createComment(input: $input) {\n      comment {\n        id\n        name\n        email\n        body\n      }\n    }\n  }\n": types.CreateCommentDocument,
+    "\n  mutation DeletePost($input: DeletePostInput!) {\n    deletePost(input: $input) {\n      post {\n        id\n        userId\n      }\n    }\n  }\n": types.DeletePostDocument,
     "\n  query GetUser($id: Int!) {\n    user(id: $id) {\n      name\n      username\n      email\n      website\n      company {\n        name\n      }\n      address {\n        city\n      }\n      posts(first: 3) {\n        totalCount\n        edges {\n          node {\n            id\n            title\n            body\n          }\n        }\n      }\n      albums(first: 3) {\n        id\n        title\n        photos(first: 1) {\n          url\n        }\n      }\n    }\n  }\n": types.GetUserDocument,
     "\n  query GetUsers {\n    users {\n      id\n      name\n      username\n      email\n      address {\n        city\n      }\n    }\n  }\n": types.GetUsersDocument,
     "\n  query GetLoginUsers {\n    users {\n      id\n      name\n    }\n  }\n": types.GetLoginUsersDocument,
@@ -54,6 +55,10 @@ export function gql(source: "\n  query GetPost($id: Int!) {\n    post(id: $id) {
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation CreateComment($input: CreateCommentInput!) {\n    createComment(input: $input) {\n      comment {\n        id\n        name\n        email\n        body\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation CreateComment($input: CreateCommentInput!) {\n    createComment(input: $input) {\n      comment {\n        id\n        name\n        email\n        body\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation DeletePost($input: DeletePostInput!) {\n    deletePost(input: $input) {\n      post {\n        id\n        userId\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation DeletePost($input: DeletePostInput!) {\n    deletePost(input: $input) {\n      post {\n        id\n        userId\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
