@@ -20,6 +20,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
 
 const GET_POST = gql(/* GraphQL */ `
   query GetPost($id: Int!) {
@@ -66,6 +67,9 @@ const DELETE_POST = gql(/* GraphQL */ `
 export default function PostDetailPage() {
   const { postId } = useParams();
   const router = useRouter();
+
+  const { toast } = useToast();
+
   const { data, refetch } = useQuery(GET_POST, {
     variables: {
       id: Number(postId),
@@ -82,6 +86,13 @@ export default function PostDetailPage() {
       if (data.deletePost.post) {
         router.replace(`/users/${data.deletePost.post.userId}`);
       }
+    },
+    onError(error) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error.message,
+      });
     },
   });
 
