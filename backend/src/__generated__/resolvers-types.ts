@@ -73,15 +73,31 @@ export type Geo = {
   lng?: Maybe<Scalars['String']['output']>;
 };
 
+export type LoginInput = {
+  userId: Scalars['Int']['input'];
+};
+
+export type LoginPayload = {
+  __typename?: 'LoginPayload';
+  error?: Maybe<Scalars['String']['output']>;
+  token?: Maybe<Scalars['String']['output']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   _empty?: Maybe<Scalars['String']['output']>;
   createComment: CreateCommentPayload;
+  login: LoginPayload;
 };
 
 
 export type MutationCreateCommentArgs = {
   input: CreateCommentInput;
+};
+
+
+export type MutationLoginArgs = {
+  input: LoginInput;
 };
 
 export type PageInfo = {
@@ -120,6 +136,7 @@ export type Query = {
   posts: Array<Post>;
   user?: Maybe<User>;
   users: Array<User>;
+  viewer?: Maybe<User>;
 };
 
 
@@ -267,6 +284,8 @@ export type ResolversTypes = {
   CreateCommentPayload: ResolverTypeWrapper<Partial<CreateCommentPayload>>;
   Geo: ResolverTypeWrapper<Partial<Geo>>;
   Int: ResolverTypeWrapper<Partial<Scalars['Int']['output']>>;
+  LoginInput: ResolverTypeWrapper<Partial<LoginInput>>;
+  LoginPayload: ResolverTypeWrapper<Partial<LoginPayload>>;
   Mutation: ResolverTypeWrapper<{}>;
   PageInfo: ResolverTypeWrapper<Partial<PageInfo>>;
   Photo: ResolverTypeWrapper<Partial<Photo>>;
@@ -290,6 +309,8 @@ export type ResolversParentTypes = {
   CreateCommentPayload: Partial<CreateCommentPayload>;
   Geo: Partial<Geo>;
   Int: Partial<Scalars['Int']['output']>;
+  LoginInput: Partial<LoginInput>;
+  LoginPayload: Partial<LoginPayload>;
   Mutation: {};
   PageInfo: Partial<PageInfo>;
   Photo: Partial<Photo>;
@@ -347,9 +368,16 @@ export type GeoResolvers<ContextType = any, ParentType extends ResolversParentTy
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type LoginPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['LoginPayload'] = ResolversParentTypes['LoginPayload']> = {
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createComment?: Resolver<ResolversTypes['CreateCommentPayload'], ParentType, ContextType, RequireFields<MutationCreateCommentArgs, 'input'>>;
+  login?: Resolver<ResolversTypes['LoginPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
 };
 
 export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
@@ -387,6 +415,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
+  viewer?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 };
 
 export type TodoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Todo'] = ResolversParentTypes['Todo']> = {
@@ -431,6 +460,7 @@ export type Resolvers<ContextType = any> = {
   Company?: CompanyResolvers<ContextType>;
   CreateCommentPayload?: CreateCommentPayloadResolvers<ContextType>;
   Geo?: GeoResolvers<ContextType>;
+  LoginPayload?: LoginPayloadResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Photo?: PhotoResolvers<ContextType>;

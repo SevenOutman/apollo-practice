@@ -6,6 +6,7 @@ This repo is a practice of using Apollo Server as a BFF that aggregates various 
 
 - GraphQL -> TypeScript codegen (both client and server)
 - Data sources (REST, gRPC, JSON RPC)
+- JWT-based authentication
 - Logging
 - Plugins
 - Tracing
@@ -60,3 +61,4 @@ An example trace:
 ## TODO
 
 - [ ] Authentication & authorization
+- [ ] Figure out whether `ID` could be a number
