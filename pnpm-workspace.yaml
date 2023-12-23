@@ -3,3 +3,4 @@ packages:
   - backend
   - user-service
   - post-service
+  - "packages/**"

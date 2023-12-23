@@ -9,6 +9,7 @@ const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
 const { registerInstrumentations } = require("@opentelemetry/instrumentation");
 const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
 import { GrpcInstrumentation } from "@opentelemetry/instrumentation-grpc";
+import { JsonRpc2Instrumentation } from "opentelemetry-instrumentation-jsonrpc";
 const {
   ExpressInstrumentation,
 } = require("@opentelemetry/instrumentation-express");
@@ -25,6 +26,7 @@ registerInstrumentations({
     new ExpressInstrumentation(),
     new GraphQLInstrumentation(),
     new GrpcInstrumentation(),
+    new JsonRpc2Instrumentation(),
   ],
 });
 

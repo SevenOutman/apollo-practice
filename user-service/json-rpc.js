@@ -26,6 +26,17 @@ let messageCounter = 1;
 const expressHandler = (req, res) => {
   const jsonRPCRequest = req.body;
 
+  server.receive(jsonRPCRequest).then((jsonRPCResponse) => {
+    if (jsonRPCResponse) {
+      res.json(jsonRPCResponse);
+    } else {
+      // If response is absent, it was a JSON-RPC notification method.
+      // Respond with no content status (204).
+      res.sendStatus(204);
+    }
+  });
+  return;
+
   tracer.startActiveSpan(
     serviceName + "/" + jsonRPCRequest.method,
     {

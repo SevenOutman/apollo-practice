@@ -10,7 +10,7 @@
     "types": ["node"],
     "strict": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "../packages/opentelemetry-instrumentation-json-rpc-2.0/opentelemetry-instrumentation-json-rpc-2.0.ts"],
   "ts-node": {
     "esm": true
   }

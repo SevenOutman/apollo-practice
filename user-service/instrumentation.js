@@ -14,10 +14,17 @@ const {
 const {
   OTLPTraceExporter,
 } = require("@opentelemetry/exporter-trace-otlp-http");
+const {
+  JsonRpc2Instrumentation,
+} = require("opentelemetry-instrumentation-jsonrpc");
 
 // Register server-related instrumentation
 registerInstrumentations({
-  instrumentations: [new HttpInstrumentation(), new ExpressInstrumentation()],
+  instrumentations: [
+    new HttpInstrumentation(),
+    new ExpressInstrumentation(),
+    new JsonRpc2Instrumentation(),
+  ],
 });
 
 // Initialize provider and identify this particular service
