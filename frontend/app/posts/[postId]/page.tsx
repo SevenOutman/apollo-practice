@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { gql } from "@/app/__generated__";
 import { useMutation, useQuery } from "@apollo/client";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import {
   // https://github.com/shadcn-ui/ui/issues/800#issuecomment-1717240139
@@ -20,6 +20,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
 
 const GET_POST = gql(/* GraphQL */ `
   query GetPost($id: Int!) {
@@ -52,11 +53,46 @@ const CREATE_COMMENT = gql(/* GraphQL */ `
   }
 `);
 
+const DELETE_POST = gql(/* GraphQL */ `
+  mutation DeletePost($input: DeletePostInput!) {
+    deletePost(input: $input) {
+      post {
+        id
+        userId
+      }
+    }
+  }
+`);
+
 export default function PostDetailPage() {
   const { postId } = useParams();
+  const router = useRouter();
+
+  const { toast } = useToast();
+
   const { data, refetch } = useQuery(GET_POST, {
     variables: {
       id: Number(postId),
+    },
+  });
+
+  const [deletePost, deletePostMutation] = useMutation(DELETE_POST, {
+    variables: {
+      input: {
+        id: Number(postId),
+      },
+    },
+    onCompleted(data) {
+      if (data.deletePost.post) {
+        router.replace(`/users/${data.deletePost.post.userId}`);
+      }
+    },
+    onError(error) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error.message,
+      });
     },
   });
 
@@ -79,6 +115,13 @@ export default function PostDetailPage() {
           </h1>
           <p className="text-zinc-500 dark:text-zinc-400">
             Posted by {data?.post?.author?.name}
+            <Button
+              variant="link"
+              loading={deletePostMutation.loading}
+              onClick={() => deletePost()}
+            >
+              Delete
+            </Button>
           </p>
         </header>
         <section>

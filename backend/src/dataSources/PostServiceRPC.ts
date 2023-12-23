@@ -12,6 +12,7 @@ const PostSchema = z.object({
 
 type Methods = {
   getPostById(request: { id: number }): Post[];
+  deletePostById(request: { id: number }): void;
 };
 
 export default class PostServiceRPC extends GRPCDataSource<Methods> {
@@ -22,5 +23,9 @@ export default class PostServiceRPC extends GRPCDataSource<Methods> {
     return this.request("getPostById", { id }).then((response) =>
       PostSchema.parse(response.post)
     );
+  }
+
+  async deletePost(id: number) {
+    return this.request("deletePostById", { id });
   }
 }

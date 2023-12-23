@@ -1,0 +1,16 @@
+extend type Query {
+  viewer: User
+}
+
+extend type Mutation {
+  login(input: LoginInput!): LoginPayload!
+}
+
+input LoginInput {
+  userId: Int!
+}
+
+type LoginPayload {
+  token: String
+  error: String
+}

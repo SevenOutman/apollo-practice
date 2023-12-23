@@ -1,7 +1,9 @@
+require("dotenv").config();
 import "./open-telemetry";
 import { ApolloServer, ApolloServerPlugin } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { buildSubgraphSchema } from "@apollo/subgraph";
+import * as authSchema from "./subgraphs/auth";
 import * as userSubgraph from "./subgraphs/user";
 import * as todoSubgraph from "./subgraphs/todo";
 import * as postSubgraph from "./subgraphs/post";
@@ -30,6 +32,7 @@ const server = new ApolloServer<ContextValue>({
         }
       `,
     },
+    authSchema,
     userSubgraph,
     todoSubgraph,
     postSubgraph,
