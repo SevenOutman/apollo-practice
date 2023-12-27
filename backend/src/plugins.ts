@@ -1,5 +1,6 @@
 import type { ApolloServerPlugin } from "@apollo/server";
 import { logger } from "./logging";
+import { disposables } from "./disposable";
 
 export const logRequest: ApolloServerPlugin = {
   // Fires whenever a GraphQL request is received from a client.
@@ -21,6 +22,16 @@ ${JSON.stringify(requestContext.request.variables, null, 2)}`);
       // request's document AST against your GraphQL schema.
       async validationDidStart(requestContext) {
         logger.debug("Validation started!");
+      },
+    };
+  },
+};
+
+export const disposeDisposables: ApolloServerPlugin = {
+  async requestDidStart() {
+    return {
+      async willSendResponse() {
+        disposables.dispose();
       },
     };
   },

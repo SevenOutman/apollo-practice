@@ -1,3 +1,4 @@
+import { disposables } from "../../disposable";
 import { logger, messages } from "../../logging";
 
 /**
@@ -5,9 +6,16 @@ import { logger, messages } from "../../logging";
  */
 export abstract class GRPCDataSource<
   Methods extends Record<string, (params?: any) => any>,
-> {
+> implements Disposable
+{
   protected abstract serviceName: string;
   protected abstract client: any;
+
+  constructor() {
+    disposables.add(this);
+  }
+
+  abstract [Symbol.dispose](): void;
 
   protected async request<Method extends Extract<keyof Methods, string>>(
     method: Method,

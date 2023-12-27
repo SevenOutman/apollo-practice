@@ -1,6 +1,6 @@
 require("dotenv").config();
 import "./open-telemetry";
-import { ApolloServer, ApolloServerPlugin } from "@apollo/server";
+import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { buildSubgraphSchema } from "@apollo/subgraph";
 import * as authSchema from "./subgraphs/auth";
@@ -12,7 +12,7 @@ import * as albumSubgraph from "./subgraphs/album";
 import { ContextValue, context } from "./context";
 import gql from "graphql-tag";
 import { logger, messages } from "./logging";
-import { logRequest } from "./plugins";
+import { disposeDisposables, logRequest } from "./plugins";
 
 const server = new ApolloServer<ContextValue>({
   schema: buildSubgraphSchema([
@@ -39,7 +39,7 @@ const server = new ApolloServer<ContextValue>({
     commentSubgraph,
     albumSubgraph,
   ]),
-  plugins: [logRequest],
+  plugins: [logRequest, disposeDisposables],
 });
 
 startStandaloneServer(server, {
