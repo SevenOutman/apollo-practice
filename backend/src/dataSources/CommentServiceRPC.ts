@@ -11,8 +11,8 @@ const CommentSchema = z.object({
 });
 
 type Methods = {
-  listCommentsByPostId(request: { postId: number }): Comment[];
-  createComment(input: CreateCommentInput): Comment;
+  listCommentsByPostId(request: { postId: number }): { comments: Comment[] };
+  createComment(input: CreateCommentInput): { comment: Comment };
 };
 
 export default class CommentServiceRPC extends GRPCDataSource<Methods> {

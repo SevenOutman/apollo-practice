@@ -25,16 +25,18 @@ export abstract class GRPCDataSource<
       logger.info(
         messages.info.gRpcRequest(this.serviceName + "/" + method, params)
       );
-      return await new Promise((resolve, reject) => {
-        this.client[method](params, function (err: Error, response: any) {
-          if (err) {
-            logger.error(err);
-            reject(err);
-          } else {
-            resolve(response);
-          }
-        });
-      });
+      return await new Promise<ReturnType<Methods[Method]>>(
+        (resolve, reject) => {
+          this.client[method](params, function (err: Error, response: any) {
+            if (err) {
+              logger.error(err);
+              reject(err);
+            } else {
+              resolve(response);
+            }
+          });
+        }
+      );
     } catch (error) {
       this.didEncounterError(error as Error);
       throw error;

@@ -11,7 +11,7 @@ const PostSchema = z.object({
 });
 
 type Methods = {
-  getPostById(request: { id: number }): Post[];
+  getPostById(request: { id: number }): { post: Post };
   deletePostById(request: { id: number }): void;
 };
 
